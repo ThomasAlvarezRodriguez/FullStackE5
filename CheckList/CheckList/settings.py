@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'CheckList.urls'
+ROOT_URLCONF = 'CheckList.CheckList.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'CheckList.wsgi.application'
+WSGI_APPLICATION = 'CheckList.CheckList.wsgi.application'
 
 
 # Database
