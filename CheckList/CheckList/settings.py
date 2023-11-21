@@ -74,12 +74,13 @@ WSGI_APPLICATION = 'CheckList.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+import dj_database_url
+import os
+# Heroku Postgres, Ici on utilise dj_database_url pour récupérer la variable d'environnement DATABASE_URL et postgresql-reticulated-36335 en défaut si la variable d'environnement n'est pas définie
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL', 'postgresql-reticulated-36335')),
 }
+
 
 
 # Password validation
