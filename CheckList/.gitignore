@@ -1,0 +1,43 @@
+# Fichiers de cache Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+db.sqlite3
+
+# Environnement virtuel
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Fichiers de configuration personnels
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# Fichiers de media et static
+/media/
+/static/
+
+# Fichiers de log
+*.log
