@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'CheckList.App_Checklist'
+    'App_Checklist.apps.AppChecklistConfig',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'CheckList.CheckList.urls'
+ROOT_URLCONF = 'BackList.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'CheckList.CheckList.wsgi.application'
+WSGI_APPLICATION = 'BackList.wsgi.application'
 
 
 # Database
@@ -78,7 +78,7 @@ import dj_database_url
 import os
 # Heroku Postgres, Ici on utilise dj_database_url pour récupérer la variable d'environnement DATABASE_URL et postgresql-reticulated-36335 en défaut si la variable d'environnement n'est pas définie
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL', 'postgresql-reticulated-36335')),
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL', 'postgres://zqzwoanbmxofrc:b159a2085bb87d5ae022be8519fc7cf9de87bdc0420f18d17c41caad6bdd2c24@ec2-44-213-228-107.compute-1.amazonaws.com:5432/d380i5u2ke5ob5')),
 }
 
 
