@@ -1,1 +1,1 @@
-web: gunicorn CheckList.CheckList.wsgi:application --log-file -
+web: gunicorn BackList.wsgi:application --log-file -
