@@ -60,22 +60,18 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profilutilisateur.save()
 
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Jeu, ProfilUtilisateur
 
 @login_required
-@require_POST
-@login_required
 def toggle_favoris(request, jeu_id):
-    if request.method == 'POST':
-        jeu = get_object_or_404(Jeu, pk=jeu_id)
-        profil_utilisateur = request.user.profilutilisateur
-        favoris = not jeu in profil_utilisateur.jeux_favoris.all()
-        
-        if favoris:
-            profil_utilisateur.jeux_favoris.add(jeu)
-        else:
-            profil_utilisateur.jeux_favoris.remove(jeu)
-            
-        return JsonResponse({'favoris': favoris})
+    jeu = get_object_or_404(Jeu, pk=jeu_id)
+    profil_utilisateur, created = ProfilUtilisateur.objects.get_or_create(user=request.user)
+
+    if jeu in profil_utilisateur.jeux_favoris.all():
+        profil_utilisateur.jeux_favoris.remove(jeu)
+    else:
+        profil_utilisateur.jeux_favoris.add(jeu)
+
+    return redirect('jeux_list')  # Redirigez l'utilisateur vers la liste des jeux
