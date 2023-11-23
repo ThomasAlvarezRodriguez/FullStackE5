@@ -127,3 +127,27 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #f1f1f1;
 }
+/* Style for breadcrumbs */
+.breadcrumb {
+    padding: 10px 0;
+    margin-top: 50px; /* Adjust if necessary to place below the menu bar */
+    list-style: none;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    border: 1px solid #e7e7e7;
+}
+
+.breadcrumb a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb > a:not(:last-child)::after {
+    content: " > ";
+    padding: 0 5px;
+    color: #666;
+}
