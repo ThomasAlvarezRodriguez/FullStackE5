@@ -195,3 +195,18 @@ ul.jeux-list li a {
 ul.jeux-list li a:hover {
     text-decoration: underline;
 }
+/* Style for detail links */
+ul.jeux-list li a.details-link {
+    color: #1a73e8; /* Choisir une couleur plus vive */
+    font-weight: bold; /* Rendre le texte en gras */
+    padding: 3px 8px; /* Ajouter un peu d'espace autour du texte */
+    margin-right: 10px; /* Ajouter de la marge à droite */
+    border-radius: 4px; /* Adoucir les coins pour l'esthétique */
+    background-color: #e6f4ff; /* Un fond subtil */
+    text-decoration: none; /* Enlever le soulignement */
+}
+
+ul.jeux-list li a.details-link:hover {
+    background-color: #c2e0ff; /* Un fond plus foncé au survol */
+    text-decoration: underline; /* Souligner au survol pour indiquer que c'est cliquable */
+}
