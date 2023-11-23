@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Page de jeu</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
 </head>
 <body>
-    <h1>Hello sur la page de jeu</h1>
+    <div class="menu-bar">
+        <a href="{% url 'home' %}">Accueil</a>
+        <a href="{% url 'profile' %}">Profil</a>
+        <!-- Ajoutez d'autres liens si nécessaire -->
+    </div>
+    <h1>Bienvenue sur la page de jeu!</h1>
+    <!-- Contenu de la page de jeu ici -->
 </body>
 </html>
