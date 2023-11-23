@@ -25,4 +25,5 @@ urlpatterns = [
     path('profil/', views.profile_view, name='profile'),
     path('jeu/', views.game_view, name='game'),
     path('jeux/', jeux_list, name='jeux_list'),
+    path('admin/', admin.site.urls),
 ]
