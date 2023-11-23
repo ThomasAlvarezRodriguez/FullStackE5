@@ -130,16 +130,17 @@ tr:hover {
 /* Style for breadcrumbs */
 .breadcrumb {
     padding: 10px 0;
-    margin-top: 50px; /* Adjust if necessary to place below the menu bar */
+    margin-top: 60px; /* Adjust if necessary to place below the menu bar */
     list-style: none;
-    background-color: #f8f8f8;
+    background-color: #e9ecef; /* Bootstrap's light gray */
     border-radius: 5px;
     border: 1px solid #e7e7e7;
 }
 
 .breadcrumb a {
-    color: #0275d8;
+    color: #0275d8; /* Bootstrap's default blue */
     text-decoration: none;
+    padding: 0 5px; /* Add padding for spacing around links */
 }
 
 .breadcrumb a:hover {
@@ -147,7 +148,6 @@ tr:hover {
 }
 
 .breadcrumb > a:not(:last-child)::after {
-    content: " > ";
-    padding: 0 5px;
+    content: ">";
     color: #666;
 }
