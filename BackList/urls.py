@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from App_Checklist import views
+from .views import jeux_list
+
 
 urlpatterns = [
     path('', views.home_view, name='home'),
     path('profil/', views.profile_view, name='profile'),
     path('jeu/', views.game_view, name='game'),
+    path('jeux/', jeux_list, name='jeux_list'),
 ]
