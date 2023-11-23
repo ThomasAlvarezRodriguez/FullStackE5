@@ -5,15 +5,25 @@
     <meta charset="UTF-8">
     <title>Page de jeu</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-
 </head>
 <body>
     <div class="menu-bar">
+        <!-- Menu déroulant -->
+        <div class="dropdown">
+            <button class="dropbtn">Menu</button>
+            <div class="dropdown-content">
+                <a href="{% url 'home' %}">Accueil</a>
+                <a href="{% url 'game' %}">Jeu</a> <!-- Active page -->
+                <a href="{% url 'profile' %}">Profil</a>
+            </div>
+        </div>
+        <!-- Liens directs -->
         <a href="{% url 'home' %}">Accueil</a>
         <a href="{% url 'profile' %}">Profil</a>
-        <!-- Ajoutez d'autres liens si nécessaire -->
     </div>
-    <h1>Bienvenue sur la page de jeu!</h1>
-    <!-- Contenu de la page de jeu ici -->
+    <div class="content">
+        <h1>Bienvenue sur la page de jeu!</h1>
+        <!-- Contenu de la page de jeu ici -->
+    </div>
 </body>
 </html>
