@@ -32,5 +32,6 @@ urlpatterns = [
     path('profil/', views.profile_view, name='profile'),
     path('connexion/', auth_views.LoginView.as_view(template_name='connexion.html'), name='login'),
     path('deconnexion/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+    path('favoris/<int:jeu_id>/', views.toggle_favoris, name='toggle_favoris'),
 
 ]

@@ -59,3 +59,22 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profilutilisateur.save()
+
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from .models import Jeu, ProfilUtilisateur
+
+@login_required
+@require_POST
+def toggle_favoris(request, jeu_id):
+    jeu = get_object_or_404(Jeu, pk=jeu_id)
+    profil_utilisateur = request.user.profilutilisateur
+
+    if jeu in profil_utilisateur.jeux_favoris.all():
+        profil_utilisateur.jeux_favoris.remove(jeu)
+        favoris = False
+    else:
+        profil_utilisateur.jeux_favoris.add(jeu)
+        favoris = True
+
+    return JsonResponse({'favoris': favoris})

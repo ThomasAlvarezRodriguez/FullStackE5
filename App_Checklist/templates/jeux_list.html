@@ -1,27 +1,68 @@
+<!-- jeux_list.html -->
 {% extends 'base.html' %}
 
 {% block title %}Liste des jeux{% endblock %}
 
 {% block content %}
-    <div class="content">
-        <h1>Liste des jeux</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Genre</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for jeu in jeux %}
-                    <tr>
-                        <td><a href="{% url 'game_detail' jeu_id=jeu.id %}">{{ jeu.nom }}</a></td>
-                        <td>{{ jeu.genre }}</td>
-                        <td>{{ jeu.description }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div class="content">
+    <h1>Liste des jeux</h1>
+    <ul>
+        {% for jeu in jeux %}
+            <li>
+                {{ jeu.nom }} - <a href="{% url 'game_detail' jeu_id=jeu.id %}">Détails</a>
+                {% if request.user.is_authenticated %}
+                    <button class="favorite-button" data-jeu-id="{{ jeu.id }}">
+                        {% if jeu in request.user.profilutilisateur.jeux_favoris.all %}
+                            Retirer des favoris
+                        {% else %}
+                            Ajouter aux favoris
+                        {% endif %}
+                    </button>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('.favorite-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const jeuId = button.getAttribute('data-jeu-id');
+            fetch(`/favoris/${jeuId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'), // Assurez-vous d'obtenir le CSRF token
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.favoris) {
+                    button.textContent = 'Retirer des favoris';
+                } else {
+                    button.textContent = 'Ajouter aux favoris';
+                }
+            });
+        });
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
 {% endblock %}
