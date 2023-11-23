@@ -1,22 +1,18 @@
-<div class="content">
-    <h1>Liste des jeux</h1>
-    <ul class="jeux-list">
-        {% for jeu in jeux %}
-            <li>
-                {{ jeu.nom }} - <a href="{% url 'game_detail' jeu_id=jeu.id %}">Détails</a>
-                {% if request.user.is_authenticated %}
-                    <form method="post" action="{% url 'toggle_favoris' jeu.id %}" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="favorite-button">
-                            {% if jeu in request.user.profilutilisateur.jeux_favoris.all %}
-                                Retirer des favoris
-                            {% else %}
-                                Ajouter aux favoris
-                            {% endif %}
-                        </button>
-                    </form>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-</div>
+<!-- Dans item_detail.html -->
+{% extends 'base.html' %}
+
+{% block title %}{{ item.nom }}{% endblock %}
+
+{% block content %}
+    <div class="breadcrumb">
+        <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > <a href="{% url 'game_detail' jeu_id=item.jeu.id %}">{{ item.jeu.nom }}</a> > {{ item.nom }}
+    </div>
+    <div class="content">
+        <h1>{{ item.nom }}</h1>
+        <p>{{ item.description }}</p>
+        <!-- Affichez l'image si elle existe -->
+        {% if item.image %}
+            <img src="{{ item.image.url }}" alt="{{ item.nom }}">
+        {% endif %}
+    </div>
+{% endblock %}
