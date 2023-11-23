@@ -31,15 +31,25 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def profile_view(request):
-    # Obtenez le profil de l'utilisateur et ses jeux favoris
-    profil_utilisateur = request.user.profilutilisateur
+    user = request.user
+    profil_utilisateur, created = ProfilUtilisateur.objects.get_or_create(user=user)
     jeux_favoris = profil_utilisateur.jeux_favoris.all()
-
-    # Vous pouvez également inclure la progression de l'utilisateur dans les jeux ici
-    # ...
 
     return render(request, 'profile.html', {
         'profil_utilisateur': profil_utilisateur,
         'jeux_favoris': jeux_favoris,
-        # 'progression_jeux': progression_jeux, # Si vous avez les données de progression
     })
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from .models import ProfilUtilisateur
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        ProfilUtilisateur.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profilutilisateur.save()
