@@ -27,3 +27,19 @@ def item_detail(request, item_id):
     jeu = item.jeu  # Assurez-vous que l'item a une relation avec un jeu
     return render(request, 'item_detail.html', {'item': item, 'jeu': jeu})
 
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def profile_view(request):
+    # Obtenez le profil de l'utilisateur et ses jeux favoris
+    profil_utilisateur = request.user.profilutilisateur
+    jeux_favoris = profil_utilisateur.jeux_favoris.all()
+
+    # Vous pouvez également inclure la progression de l'utilisateur dans les jeux ici
+    # ...
+
+    return render(request, 'profile.html', {
+        'profil_utilisateur': profil_utilisateur,
+        'jeux_favoris': jeux_favoris,
+        # 'progression_jeux': progression_jeux, # Si vous avez les données de progression
+    })
