@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from App_Checklist import views
-from .views import jeux_list
+from App_Checklist.views import jeux_list
 
 
 urlpatterns = [
