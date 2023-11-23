@@ -24,6 +24,7 @@ urlpatterns = [
     path('', views.home_view, name='home'),
     path('profil/', views.profile_view, name='profile'),
     path('jeu/', views.game_view, name='game'),
+    path('jeux/<int:jeu_id>/', views.game_detail, name='game_detail'),
     path('jeux/', jeux_list, name='jeux_list'),
     path('admin/', admin.site.urls),
 ]

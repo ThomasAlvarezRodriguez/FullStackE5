@@ -16,7 +16,7 @@
             <tbody>
                 {% for jeu in jeux %}
                     <tr>
-                        <td>{{ jeu.nom }}</td>
+                        <td><a href="{% url 'game_detail' jeu_id=jeu.id %}">{{ jeu.nom }}</a></td>
                         <td>{{ jeu.genre }}</td>
                         <td>{{ jeu.description }}</td>
                     </tr>
