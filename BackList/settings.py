@@ -133,3 +133,9 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+
+# Chemin sur le système de fichiers où les fichiers uploadés seront stockés.
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# URL publique de base pour accéder aux fichiers médias via le web.
+MEDIA_URL = '/media/'

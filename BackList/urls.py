@@ -19,7 +19,8 @@ from django.urls import path
 from App_Checklist import views
 from App_Checklist.views import jeux_list
 from django.contrib.auth import views as auth_views
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.home_view, name='home'),
@@ -35,3 +36,5 @@ urlpatterns = [
     path('favoris/<int:jeu_id>/', views.toggle_favoris, name='toggle_favoris'),
 
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
