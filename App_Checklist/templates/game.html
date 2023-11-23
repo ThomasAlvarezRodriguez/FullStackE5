@@ -17,22 +17,7 @@
                 <li><a href="{% url 'item_detail' item_id=item.id %}">{{ item.nom }}</a></li>
             {% endfor %}
         </ul>
-        <!-- Formulaire de filtrage des tags -->
-    <form method="get" action="">
-        {% for tag in tags_disponibles %}
-            <input type="checkbox" name="tag" value="{{ tag.nom }}" id="tag_{{ tag.id }}" {% if tag.nom in selected_tags %}checked{% endif %}>
-            <label for="tag_{{ tag.id }}">{{ tag.nom }}</label>
-        {% endfor %}
-        <button type="submit">Filtrer</button>
-    </form>
-
-    <!-- Liste des items filtrés -->
-    {% for item in items %}
-        <div>
-            <h2>{{ item.nom }}</h2>
-            <!-- Affichage des détails de l'item -->
-        </div>
-    {% endfor %}
+        
     </div>
 {% endblock %}
 
