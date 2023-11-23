@@ -10,16 +10,16 @@
             <li>
                 {{ jeu.nom }} - <a href="{% url 'game_detail' jeu_id=jeu.id %}">Détails</a>
                 {% if request.user.is_authenticated %}
-                    <form method="post" action="{% url 'toggle_favoris' jeu.id %}" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="favorite-button">
-                            {% if jeu in request.user.profilutilisateur.jeux_favoris.all %}
-                                Retirer des favoris
-                            {% else %}
-                                Ajouter aux favoris
-                            {% endif %}
-                        </button>
-                    </form>
+                <form method="post" action="{% url 'toggle_favoris' jeu.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="favorite-button {% if jeu in request.user.profilutilisateur.jeux_favoris.all %}remove-favorite{% endif %}">
+                        {% if jeu in request.user.profilutilisateur.jeux_favoris.all %}
+                            Retirer des favoris
+                        {% else %}
+                            Ajouter aux favoris
+                        {% endif %}
+                    </button>
+                </form>
                 {% endif %}
             </li>
         {% endfor %}

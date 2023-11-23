@@ -167,6 +167,15 @@ tr:hover {
     background-color: #45a049; /* Darker green on hover */
 }
 
+.remove-favorite {
+    background-color: #f44336; /* Red background for removal */
+}
+
+.remove-favorite:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+
 /* Style for the list of games */
 ul.jeux-list {
     list-style: none; /* Remove default list styling */
