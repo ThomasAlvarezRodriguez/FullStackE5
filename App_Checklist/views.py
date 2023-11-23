@@ -75,3 +75,52 @@ def toggle_favoris(request, jeu_id):
         profil_utilisateur.jeux_favoris.add(jeu)
 
     return redirect('jeux_list')  # Redirigez l'utilisateur vers la liste des jeux
+
+from .models import Item, Tag
+
+def items_par_tags(request, tags):
+    tag_list = tags.split('+')  # 'France+Terrestre' devient ['France', 'Terrestre']
+    items = Item.objects.all()
+    
+    for tag_name in tag_list:
+        items = items.filter(tags__nom=tag_name)
+    
+    context = {'items': items}
+    return render(request, 'path/to/your_template.html', context)
+
+from .models import Item, Tag
+
+def liste_des_items(request):
+    tags_disponibles = Tag.objects.all()
+    items = Item.objects.all()
+
+    # Si des tags sont sélectionnés, filtrez les items en conséquence.
+    selected_tags = request.GET.getlist('tag')
+    if selected_tags:
+        items = items.filter(tags__nom__in=selected_tags).distinct()
+
+    context = {
+        'tags_disponibles': tags_disponibles,
+        'items': items,
+    }
+    return render(request, 'chemin/vers/liste_des_items.html', context)
+
+# views.py
+from django.shortcuts import render, get_object_or_404
+from .models import Jeu, Tag
+
+def detail_du_jeu(request, jeu_id):
+    jeu = get_object_or_404(Jeu, pk=jeu_id)
+    tags_disponibles = Tag.objects.filter(items__jeu=jeu).distinct()
+    items = jeu.item_set.all()
+
+    selected_tags = request.GET.getlist('tag')
+    if selected_tags:
+        items = items.filter(tags__nom__in=selected_tags).distinct()
+
+    context = {
+        'jeu': jeu,
+        'tags_disponibles': tags_disponibles,
+        'items': items,
+    }
+    return render(request, 'jeux/detail_du_jeu.html', context)
