@@ -33,6 +33,12 @@ body {
     color: black;
 }
 
+.menu-bar a.active {
+    background-color: #555; 
+    color: white; 
+}
+
+
 .content {
     padding: 50px;
     margin-top: 60px; /* Adjust the top margin to the height of the menu-bar */

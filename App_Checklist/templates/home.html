@@ -8,20 +8,9 @@
 </head>
 <body>
     <div class="menu-bar">
-        <!-- Bouton pour le menu déroulant -->
-        <div class="dropdown">
-            <button class="dropbtn">Menu</button>
-            <!-- Contenu du menu déroulant -->
-            <div class="dropdown-content">
-                <a href="{% url 'home' %}">Accueil</a>
-                <a href="{% url 'game' %}">Jeu</a>    
-                <a href="{% url 'profile' %}">Profil</a> 
-            </div>
-        </div>
-        <!-- Liens directs, si vous les voulez en dehors du menu déroulant -->
-        <a href="{% url 'home' %}">Accueil</a>
+        <a href="{% url 'home' %}"class="active">Accueil</a>
         <a href="{% url 'game' %}">Jeu</a>
-        <a href="{% url 'profile' %}">Profil</a>
+        <a href="{% url 'profile' %}" >Profil</a>
     </div>
     <div class="content">
         <h1>Bienvenue sur la page d'accueil!</h1>
