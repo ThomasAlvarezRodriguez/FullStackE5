@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <title>Page d'accueil</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-</head>
-<body>
-    <div class="menu-bar">
-        <a href="{% url 'home' %}"class="active">Accueil</a>
-        <a href="{% url 'game' %}">Jeu</a>
-        <a href="{% url 'profile' %}" >Profil</a>
-    </div>
+{% extends 'base.html' %}
+
+{% block title %}Page d'accueil{% endblock %}
+
+{% block content %}
     <div class="content">
         <h1>Bienvenue sur la page d'accueil!</h1>
-        <!-- Le reste du contenu de la page -->
+        <!-- Le reste du contenu spécifique à la page d'accueil -->
     </div>
-</body>
-</html>
+{% endblock %}

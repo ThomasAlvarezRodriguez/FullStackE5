@@ -1,28 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des Jeux</title>
-</head>
-<body>
-    <h1>Liste des Jeux</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Genre</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for jeu in jeux %}
+{% extends 'base.html' %}
+
+{% block title %}Liste des jeux{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <h1>Liste des jeux</h1>
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ jeu.nom }}</td>
-                    <td>{{ jeu.genre }}</td>
-                    <td>{{ jeu.description }}</td>
+                    <th>Nom</th>
+                    <th>Genre</th>
+                    <th>Description</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+            </thead>
+            <tbody>
+                {% for jeu in jeux %}
+                    <tr>
+                        <td>{{ jeu.nom }}</td>
+                        <td>{{ jeu.genre }}</td>
+                        <td>{{ jeu.description }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>{% block title %}Titre par défaut{% endblock %}</title>
+</head>
+<body>
+    <div class="menu-bar">
+        <a href="{% url 'home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Accueil</a>
+        <a href="{% url 'game' %}" {% if request.resolver_match.url_name == 'game' %}class="active"{% endif %}>Jeu</a>
+        <a href="{% url 'profile' %}" {% if request.resolver_match.url_name == 'profile' %}class="active"{% endif %}>Profil</a>
+        <a href="{% url 'jeux_list' %}" {% if request.resolver_match.url_name == 'jeux_list' %}class="active"{% endif %}>Profil</a>
+
+    </div>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
