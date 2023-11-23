@@ -63,6 +63,30 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+document.querySelectorAll('.favorite-button').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const jeuId = button.getAttribute('data-jeu-id');
+        fetch(`/favoris/${jeuId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 'jeu_id': jeuId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.favoris) {
+                button.textContent = 'Retirer des favoris';
+            } else {
+                button.textContent = 'Ajouter aux favoris';
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+});
 
 </script>
 {% endblock %}

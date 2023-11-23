@@ -66,15 +66,16 @@ from .models import Jeu, ProfilUtilisateur
 
 @login_required
 @require_POST
+@login_required
 def toggle_favoris(request, jeu_id):
-    jeu = get_object_or_404(Jeu, pk=jeu_id)
-    profil_utilisateur = request.user.profilutilisateur
-
-    if jeu in profil_utilisateur.jeux_favoris.all():
-        profil_utilisateur.jeux_favoris.remove(jeu)
-        favoris = False
-    else:
-        profil_utilisateur.jeux_favoris.add(jeu)
-        favoris = True
-
-    return JsonResponse({'favoris': favoris})
+    if request.method == 'POST':
+        jeu = get_object_or_404(Jeu, pk=jeu_id)
+        profil_utilisateur = request.user.profilutilisateur
+        favoris = not jeu in profil_utilisateur.jeux_favoris.all()
+        
+        if favoris:
+            profil_utilisateur.jeux_favoris.add(jeu)
+        else:
+            profil_utilisateur.jeux_favoris.remove(jeu)
+            
+        return JsonResponse({'favoris': favoris})
