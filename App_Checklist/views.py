@@ -22,3 +22,6 @@ def game_detail(request, jeu_id):
     items = Item.objects.filter(jeu=jeu)
     return render(request, 'game.html', {'jeu': jeu, 'items': items})
 
+def item_detail(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    return render(request, 'item_detail.html', {'item': item})
