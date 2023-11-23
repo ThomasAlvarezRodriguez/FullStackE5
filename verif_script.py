@@ -15,3 +15,4 @@ profils = ProfilUtilisateur.objects.all()
 for profil in profils:
     jeux_favoris = ', '.join([jeu.nom for jeu in profil.jeux_favoris.all()])
     print(f'Utilisateur: {profil.user.username}, Jeux favoris: {jeux_favoris}')
+print('Fin du script de vérification.')
