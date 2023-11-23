@@ -1,6 +1,5 @@
 from django.http import HttpResponse
 from django.shortcuts import render,get_object_or_404
-import models
 
 def home_view(request):
     return render(request, 'home.html')
@@ -11,7 +10,7 @@ def profile_view(request):
 def game_view(request):
     return render(request, 'game.html')
 
-from .models import Jeu
+from .models import Jeu, Item
 
 def jeux_list(request):
     jeux = Jeu.objects.all()  # Récupère tous les jeux
@@ -20,6 +19,6 @@ def jeux_list(request):
 
 def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
-    items = models.Item.objects.filter(jeu=jeu)
+    items = Item.objects.filter(jeu=jeu)
     return render(request, 'game.html', {'jeu': jeu, 'items': items})
 
