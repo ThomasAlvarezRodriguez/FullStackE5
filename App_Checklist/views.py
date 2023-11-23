@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render,get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 def home_view(request):
     return render(request, 'home.html')
@@ -33,8 +34,6 @@ def item_detail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     jeu = item.jeu  # Assurez-vous que l'item a une relation avec un jeu
     return render(request, 'item_detail.html', {'item': item, 'jeu': jeu})
-
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def profile_view(request):
