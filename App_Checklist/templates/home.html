@@ -69,14 +69,14 @@
         <div class="dropdown">
             <button class="dropbtn">Menu</button>
             <div class="dropdown-content">
-                <a href="#">Accueil</a>
-                <a href="game.html">Jeu</a>
-                <a href="profile.html">Profil</a>
+                <a href="{% url 'home' %}">Accueil</a>
+                <a href="{% url 'game' %}">Jeu</a>
+                <a href="{% url 'profile' %}">Profil</a>
             </div>
         </div> 
-        <a href="#home">Accueil</a>
-        <a href="game.html">Jeu</a>
-        <a href="profile.html">Profil</a>
+        <a href="{% url 'home' %}">Accueil</a>
+        <a href="{% url 'game' %}">Jeu</a>
+        <a href="{% url 'profile' %}">Profil</a>
     </div>
     <h1>Bienvenue sur la page d'accueil!</h1>
 </body>
