@@ -151,3 +151,38 @@ tr:hover {
     content: ">";
     color: #666;
 }
+/* Style for favorite buttons */
+.favorite-button {
+    padding: 5px 10px;
+    background-color: #4CAF50; /* A green background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px; /* Space it a bit from the "Détails" link */
+    font-size: 0.9em; /* Adjust the font size as needed */
+}
+
+.favorite-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Style for the list of games */
+ul.jeux-list {
+    list-style: none; /* Remove default list styling */
+    padding: 0;
+}
+
+ul.jeux-list li {
+    margin-bottom: 10px; /* Add space between list items */
+}
+
+ul.jeux-list li a {
+    text-decoration: none;
+    color: #000; /* Black text for links */
+    padding-right: 5px; /* Space between text and button */
+}
+
+ul.jeux-list li a:hover {
+    text-decoration: underline;
+}
