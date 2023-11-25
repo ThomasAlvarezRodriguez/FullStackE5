@@ -35,7 +35,7 @@ def game_detail(request, jeu_id):
     # Include whether each item is obtained in the template context
     items_with_status = [(item, item in profil_utilisateur.items_obtenus.all()) for item in items]
 
-    return render(request, 'game_detail.html', {
+    return render(request, 'game.html', {
         'jeu': jeu,
         'items_with_status': items_with_status,
         # Include other necessary context
