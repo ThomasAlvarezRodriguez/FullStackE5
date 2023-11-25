@@ -1,36 +1,53 @@
 {% extends 'base.html' %}
 
-{% block title %}Page de jeu{% endblock %}
+{% block title %}{{ jeu.nom }}{% endblock %}
 
-<!-- Dans game.html -->
 {% block content %}
-    <div class="breadcrumb">
-        <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > {{ jeu.nom }}
-    </div>
-    <div class="content">
-        <h1>{{ jeu.nom }}</h1>
-        <p>{{ jeu.description }}</p>
-        <!-- Liste des items -->
+<div class="breadcrumb">
+    <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > {{ jeu.nom }}
+</div>
+<div class="content">
+    <h1>{{ jeu.nom }}</h1>
+    <p>{{ jeu.description }}</p>
+
+    {% if request.user.is_authenticated %}
+    <form method="post" action="{% url 'update_progression' jeu.id %}">
+        {% csrf_token %}
         <h2>Items</h2>
         <ul>
             {% for item in items %}
-            {% if request.user.is_authenticated %}
-            <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item in profil_utilisateur.items_obtenus.all %}checked{% endif %}>
-            {% endif %}
-                <li><a href="{% url 'item_detail' item_id=item.id %}">{{ item.nom }}</a></li>
+                <li>
+                    <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item in profil_utilisateur.items_obtenus.all %}checked{% endif %}>
+                    <label for="item_{{ item.id }}">{{ item.nom }}</label>
+                </li>
             {% endfor %}
         </ul>
-        <!-- Liste des quêtes -->
+
         <h2>Quêtes</h2>
         <ul>
             {% for quete in quetes %}
-            {% if request.user.is_authenticated %}
-            <input type="checkbox" name="quete_{{ quete.id }}" id="quete_{{ quete.id }}" {% if quete in profil_utilisateur.quetes_obtenues.all %}checked{% endif %}>
-            {% endif %}
-                <li><a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.titre }}</a></li>
+                <li>
+                    <input type="checkbox" name="quete_{{ quete.id }}" id="quete_{{ quete.id }}" {% if quete in profil_utilisateur.quetes_obtenues.all %}checked{% endif %}>
+                    <label for="quete_{{ quete.id }}">{{ quete.titre }}</label>
+                </li>
             {% endfor %}
-        
-    </div>
+        </ul>
+        <input type="submit" value="Mettre à jour la progression">
+    </form>
+    {% else %}
+        <h2>Items</h2>
+        <ul>
+            {% for item in items %}
+                <li>{{ item.nom }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Quêtes</h2>
+        <ul>
+            {% for quete in quetes %}
+                <li>{{ quete.titre }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
 {% endblock %}
-
-
