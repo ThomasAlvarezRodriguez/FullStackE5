@@ -240,3 +240,49 @@ ul.jeux-list li a.details-link:hover {
 .obtain-button.remove-obtain:hover {
     background-color: #388E3C; /* Darker green on hover */
 }
+
+/* style.css */
+a {
+    color: #0066cc; /* Blue color for links */
+    text-decoration: none; /* Removes underline from links */
+    transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
+}
+
+a:hover, a:focus {
+    color: #003399; /* Darker blue on hover/focus */
+    text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8); /* Glowing effect on hover/focus */
+}
+
+/* Specific style for 'details-link' class if needed */
+.details-link {
+    font-weight: bold; /* Makes detail links bold */
+    /* Additional specific styling for 'details-link' class */
+}
+
+/* Style for 'favorite-button' class */
+.favorite-button {
+    /* Button-like appearance */
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 4px 2px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.favorite-button:hover {
+    background-color: #388E3C; /* Darker green on hover */
+}
+
+/* Specific style for 'remove-favorite' class */
+.remove-favorite {
+    background-color: #f44336; /* Red background for remove favorite */
+}
+
+.remove-favorite:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
