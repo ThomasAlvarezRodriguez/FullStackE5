@@ -28,7 +28,8 @@ def jeux_list(request):
 def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
-    return render(request, 'game.html', {'jeu': jeu, 'items': items})
+    quetes= Quete.objects.filter(jeu=jeu)
+    return render(request, 'game.html', {'jeu': jeu, 'items': items, 'quetes': quetes})
 
 def item_detail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
