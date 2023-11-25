@@ -18,7 +18,7 @@
             {% for item in items %}
                 <li>
                     <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if items_obtenus|default:item.id False %}checked{% endif %}>
-                    <label for="item_{{ item.id }}">{{ item.nom }}</label><br>                
+                    <label for="item_{{ item.id }}">{{ item.nom }}</label><br>        
                 </li>
             {% endfor %}
         </ul>
