@@ -27,7 +27,7 @@ def jeux_list(request):
 
 from django.shortcuts import render
 
-def game_detail(request, jeu_id):
+def game(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
     quetes = Quete.objects.filter(jeu=jeu)
@@ -46,7 +46,7 @@ def game_detail(request, jeu_id):
         'quetes_with_status': quetes_with_status,
     }
 
-    return render(request, 'game_detail.html', context)
+    return render(request, 'game.html', context)
 
 
 
