@@ -18,7 +18,7 @@ def profile_view(request):
 def game_view(request):
     return render(request, 'game.html')
 
-from .models import Jeu, Item
+from .models import Jeu, Item, Quete
 
 def jeux_list(request):
     jeux = Jeu.objects.all()  # Récupère tous les jeux
@@ -34,6 +34,11 @@ def item_detail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     jeu = item.jeu  # Assurez-vous que l'item a une relation avec un jeu
     return render(request, 'item_detail.html', {'item': item, 'jeu': jeu})
+
+def quete_detail(request, quete_id):
+    quete = get_object_or_404(Quete, pk=quete_id)
+    jeu = quete.jeu  
+    return render(request, 'quete_detail.html', {'quete': quete, 'jeu': jeu})
 
 @login_required
 def profile_view(request):

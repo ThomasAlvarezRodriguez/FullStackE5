@@ -17,6 +17,11 @@
                 <li><a href="{% url 'item_detail' item_id=item.id %}">{{ item.nom }}</a></li>
             {% endfor %}
         </ul>
+        <ul>
+            {% for quete in quetes %}
+                <li><a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.nom }}</a></li>
+            {% endfor %}
+        </ul>
         
     </div>
 {% endblock %}

@@ -30,6 +30,7 @@ urlpatterns = [
     path('jeux/', jeux_list, name='jeux_list'),
     path('admin/', admin.site.urls),
     path('items/<int:item_id>/', views.item_detail, name='item_detail'),
+    path('quetes/<int:quete_id>/', views.quete_detail, name='quete_detail'),
     path('profil/', views.profile_view, name='profile'),
     path('connexion/', auth_views.LoginView.as_view(template_name='connexion.html'), name='login'),
     path('deconnexion/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
