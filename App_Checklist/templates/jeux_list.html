@@ -8,7 +8,7 @@
     <ul class="jeux-list">
         {% for jeu in jeux %}
             <li>
-                {{ jeu.nom }} -<a href="{% url 'game_detail' jeu_id=jeu.id %}" class="details-link">Détails</a>
+                {{ jeu.nom }} -<a href="{% url 'game' jeu_id=jeu.id %}" class="details-link">Détails</a>
                 {% if request.user.is_authenticated %}
                 <form method="post" action="{% url 'toggle_favoris' jeu.id %}" style="display: inline;">
                     {% csrf_token %}

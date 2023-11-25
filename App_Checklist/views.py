@@ -27,7 +27,7 @@ def jeux_list(request):
 
 from django.shortcuts import render
 
-def game_detail(request, jeu_id):
+def game(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
     quetes = Quete.objects.filter(jeu=jeu)
@@ -115,7 +115,7 @@ def toggle_obtenu_item(request, item_id):
     profil_utilisateur.save()
 
     # Make sure to redirect to a view that shows the item, such as the item detail or game detail view
-    return redirect('game_detail', jeu_id=item.jeu.id)
+    return redirect('game', jeu_id=item.jeu.id)
 
 @login_required
 def toggle_obtenu_quete(request, quete_id):
@@ -129,7 +129,7 @@ def toggle_obtenu_quete(request, quete_id):
     profil_utilisateur.save()
 
     # Redirect to the detail view of the game to which the quest belongs
-    return redirect('game_detail', jeu_id=quete.jeu.id)
+    return redirect('game', jeu_id=quete.jeu.id)
 
 
 from django.http import HttpResponseRedirect
@@ -163,8 +163,8 @@ def update_progression(request, jeu_id):
         profil_utilisateur.save()
         
         # Redirect to the game detail page
-        return HttpResponseRedirect(reverse('game_detail', args=[jeu.id]))
+        return HttpResponseRedirect(reverse('game', args=[jeu.id]))
     else:
         # If not a POST request, redirect to the game detail page without making changes
-        return HttpResponseRedirect(reverse('game_detail', args=[jeu_id]))
+        return HttpResponseRedirect(reverse('game', args=[jeu_id]))
 

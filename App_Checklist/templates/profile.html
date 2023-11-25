@@ -8,7 +8,7 @@
     <h2>Jeux favoris</h2>
     <ul>
         {% for jeu in jeux_favoris %}
-            <li><a href="{% url 'game_detail' jeu_id=jeu.id %}">{{ jeu.nom }}</a></li>
+            <li><a href="{% url 'game' jeu_id=jeu.id %}">{{ jeu.nom }}</a></li>
         {% endfor %}
     </ul>
     <!-- Vous pouvez ajouter ici d'autres sections, comme la progression des jeux -->

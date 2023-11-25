@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="breadcrumb">
-        <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > <a href="{% url 'game_detail' jeu_id=quete.jeu.id %}">{{ quete.jeu.titre }}</a> > {{ quete.titre }}
+        <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > <a href="{% url 'game' jeu_id=quete.jeu.id %}">{{ quete.jeu.titre }}</a> > {{ quete.titre }}
     </div>
     <div class="content">
         <h1>{{ quete.titre }}</h1>
