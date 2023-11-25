@@ -1,40 +1,37 @@
 {% extends 'base.html' %}
 
-{% block title %}Page de jeu{% endblock %}
+{% block title %}{{ jeu.nom }}{% endblock %}
 
-<!-- Dans game.html -->
 {% block content %}
-    <div class="breadcrumb">
-        <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > {{ jeu.nom }}
-    </div>
-    <div class="content">
-        <h1>{{ jeu.nom }}</h1>
-        <p>{{ jeu.description }}</p>
-        <!-- Liste des items -->
+<div class="breadcrumb">
+    <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > {{ jeu.nom }}
+</div>
+<div class="content">
+    <h1>{{ jeu.nom }}</h1>
+    <p>{{ jeu.description }}</p>
+
+    <!-- Liste des items avec formulaire pour mettre à jour la progression -->
+    <form method="post" action="{% url 'update_progression' %}">
+        {% csrf_token %}
         <h2>Items</h2>
         <ul>
             {% for item in items %}
-                <li><a href="{% url 'item_detail' item_id=item.id %}">{{ item.nom }}</a></li>
+                <li>
+                    {{ item.nom }}
+                    <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item.obtenu %}checked{% endif %}>
+                    <label for="item_{{ item.id }}">Obtenu</label>
+                </li>
             {% endfor %}
         </ul>
-        <!--test-->
-            {% csrf_token %}
-            {% for item in items %}
-                <a href="{% url 'update_progression_item' item_id=item.id %}">Update Progression</a>
-                <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item.obtenu %}checked{% endif %}>
-                <label for="item_{{ item.id }}">{{ item.nom }}</label><br>
-            {% endfor %}
-            <input type="submit" value="Mettre à jour">
-        </form>
-        <!--test-->
-        <h2>Quetes</h2>
-        <ul>
-            {% for quete in quetes %}
-                <li><a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.titre }}</a></li>
-            {% endfor %}
-        </ul>
-        
-    </div>
+        <input type="submit" value="Mettre à jour">
+    </form>
+
+    <!-- Liste des quêtes -->
+    <h2>Quêtes</h2>
+    <ul>
+        {% for quete in quetes %}
+            <li>{{ quete.titre }}</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
-
-
