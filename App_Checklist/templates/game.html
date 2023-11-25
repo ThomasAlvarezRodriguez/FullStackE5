@@ -12,23 +12,24 @@
 
     <h2>Items</h2>
     <ul>
-        {% for item in items %}
-            <li>
-                {{ item.nom }}
-                {% if request.user.is_authenticated %}
-                <form method="post" action="{% url 'toggle_obtenu_item' item.id %}" style="display: inline;">
+        {% for item, is_obtained in items_with_status %}
+        <li>
+            {{ item.nom }}
+            {% if request.user.is_authenticated %}
+                <form method="post" action="{% url 'toggle_obtenu_item' item.id %}">
                     {% csrf_token %}
-                    <button type="submit" class="obtain-button {% if item in profil_utilisateur.items_obtenus.all %}remove-obtain{% endif %}">
-                        {% if item in profil_utilisateur.items_obtenus.all %}
+                    <button type="submit">
+                        {% if is_obtained %}
                             Retirer des obtenus
                         {% else %}
                             Marquer comme obtenu
                         {% endif %}
                     </button>
                 </form>
-                {% endif %}
-            </li>
-        {% endfor %}
+            {% endif %}
+        </li>
+    {% endfor %}
+    
     </ul>
 
     <h2>Quêtes</h2>

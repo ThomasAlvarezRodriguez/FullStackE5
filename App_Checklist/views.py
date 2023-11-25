@@ -25,11 +25,21 @@ def jeux_list(request):
     return render(request, 'jeux_list.html', {'jeux': jeux})
 
 
+from django.shortcuts import render
+
 def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
-    quetes= Quete.objects.filter(jeu=jeu)
-    return render(request, 'game.html', {'jeu': jeu, 'items': items, 'quetes': quetes})
+    profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
+
+    # Include whether each item is obtained in the template context
+    items_with_status = [(item, item in profil_utilisateur.items_obtenus.all()) for item in items]
+
+    return render(request, 'game_detail.html', {
+        'jeu': jeu,
+        'items_with_status': items_with_status,
+        # Include other necessary context
+    })
 
 
 def item_detail(request, item_id):
@@ -88,18 +98,14 @@ def toggle_obtenu_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
 
-    # Toggle the item obtained status
     if item in profil_utilisateur.items_obtenus.all():
         profil_utilisateur.items_obtenus.remove(item)
     else:
         profil_utilisateur.items_obtenus.add(item)
-
     profil_utilisateur.save()
 
-    # Redirect to the 'game_detail' view with the correct 'jeu_id' argument
+    # Make sure to redirect to a view that shows the item, such as the item detail or game detail view
     return redirect('game_detail', jeu_id=item.jeu.id)
-
-
 
 @login_required
 def toggle_obtenu_quete(request, quete_id):
