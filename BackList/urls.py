@@ -35,8 +35,8 @@ urlpatterns = [
     path('connexion/', auth_views.LoginView.as_view(template_name='connexion.html'), name='login'),
     path('deconnexion/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('favoris/<int:jeu_id>/', views.toggle_favoris, name='toggle_favoris'),
-    path('update_progression_items/<int:jeu_id>/', views.update_progression_items, name='update_progression_items'),
-    path('update_progression_quetes/<int:jeu_id>/', views.update_progression_quetes, name='update_progression_quetes'),
+    path('update_progression_item/<int:jeu_id>/', views.update_progression_items, name='update_progression_items'),
+    path('update_progression_quete/<int:jeu_id>/', views.update_progression_quetes, name='update_progression_quetes'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
