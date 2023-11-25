@@ -26,12 +26,13 @@ def jeux_list(request):
     return render(request, 'jeux_list.html', {'jeux': jeux})
 
 
+
 def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
     quetes= Quete.objects.filter(jeu=jeu)
     context = {
-                'progression_url': progression_url,
+                'progression_url': item_detail.progression_url,
         }
     return render(request, 'game.html', {'jeu': jeu, 'items': items, 'quetes': quetes},context)
 
