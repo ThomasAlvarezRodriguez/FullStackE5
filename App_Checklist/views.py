@@ -128,10 +128,10 @@ def update_progression_globale(request, jeu_id):
             if key.startswith('quete_'):
                 quete_id = key.split('_')[1]
                 quete = get_object_or_404(Quete, pk=quete_id)
-                accomplie = value == 'on'
+                obtenu = value == 'on'
                 ProgressionQuete.objects.update_or_create(
                     utilisateur=request.user, quete=quete,
-                    defaults={'accomplie': accomplie}
+                    defaults={'accomplie': obtenu}
                 )
 
         # Redirigez l'utilisateur vers la page du jeu après la mise à jour
