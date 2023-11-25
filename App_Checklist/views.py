@@ -87,7 +87,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Item, ProgressionItem
 
 @login_required
-def update_progression(request):
+def update_progression_item(request):
     if request.method == 'POST':
         for key in request.POST:
             if key.startswith('item_'):
