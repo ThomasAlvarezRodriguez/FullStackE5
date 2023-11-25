@@ -31,12 +31,26 @@ def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
     quetes = Quete.objects.filter(jeu=jeu)
+    total_items = items.count()
+    total_quetes = quetes.count()
+    
+    # Supposons que vous ayez une manière de savoir quels items et quêtes ont été obtenus
+    # Par exemple, via un modèle Progression avec un booléen obtenu pour chaque item/quete
+    items_obtenus = items.filter(progression__obtenu=True).count()
+    quetes_obtenues = quetes.filter(progression__obtenu=True).count()
+
+    # Calculez la progression
+    progression_items = (items_obtenus / total_items) * 100 if total_items > 0 else 0
+    progression_quetes = (quetes_obtenues / total_quetes) * 100 if total_quetes > 0 else 0
+
     context = {
         'jeu': jeu,
-        'items': items,
-        'quetes': quetes,
+        'progression_items': progression_items,
+        'progression_quetes': progression_quetes,
+        # autres contextes...
     }
-    return render(request, 'game.html', context)
+    return render(request, 'game_detail.html', context)
+
 
 def item_detail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
@@ -92,7 +106,7 @@ def toggle_favoris(request, jeu_id):
 
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from .models import Item, ProgressionItem
+from .models import Item, ProgressionItem, Quete, ProgressionQuete
 
 @login_required
 def update_progression_item(request):
@@ -104,6 +118,21 @@ def update_progression_item(request):
                 obtenu = request.POST[key] == 'on'
                 ProgressionItem.objects.update_or_create(
                     utilisateur=request.user, item=item,
+                    defaults={'obtenu': obtenu}
+                )
+        # Vous pouvez ajouter une gestion similaire pour les quêtes ici.
+    return redirect('some_view_name')
+
+@login_required
+def update_progression_quete(request):
+    if request.method == 'POST':
+        for key in request.POST:
+            if key.startswith('quete'):
+                quete_id = key.split('_')[1]
+                quete = Quete.objects.get(id=quete_id)
+                obtenu = request.POST[key] == 'on'
+                ProgressionQuete.objects.update_or_create(
+                    utilisateur=request.user, quete=quete,
                     defaults={'obtenu': obtenu}
                 )
         # Vous pouvez ajouter une gestion similaire pour les quêtes ici.

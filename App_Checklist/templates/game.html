@@ -9,9 +9,17 @@
 <div class="content">
     <h1>{{ jeu.nom }}</h1>
     <p>{{ jeu.description }}</p>
+    
+    <div class="progression">
+        <label for="progression_items">Progression des Items:</label>
+        <progress id="progression_items" value="{{ progression_items }}" max="100"> {{ progression_items }}% </progress>
+    
+        <label for="progression_quetes">Progression des Quêtes:</label>
+        <progress id="progression_quetes" value="{{ progression_quetes }}" max="100"> {{ progression_quetes }}% </progress>
+    </div>
 
     <!-- Liste des items avec formulaire pour mettre à jour la progression -->
-    <form method="post" action="{% url 'update_progression' %}">
+    <form method="post" action="{% url 'update_progression_item' %}">
         {% csrf_token %}
         <h2>Items</h2>
         <ul>
@@ -33,5 +41,6 @@
             <li>{{ quete.titre }}</li>
         {% endfor %}
     </ul>
+    
 </div>
 {% endblock %}
