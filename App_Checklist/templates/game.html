@@ -18,9 +18,9 @@
             {% endfor %}
         </ul>
         <!--test-->
-            <a href="{% url 'update_progression_item' item_id=item.id %}">Marquer comme obtenu</a>
             {% csrf_token %}
             {% for item in items %}
+                <a href="{% url 'update_progression_item' item_id=item.id %}">Update Progression</a>
                 <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item.obtenu %}checked{% endif %}>
                 <label for="item_{{ item.id }}">{{ item.nom }}</label><br>
             {% endfor %}
