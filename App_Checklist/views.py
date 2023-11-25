@@ -34,8 +34,6 @@ def game_detail(request, jeu_id):
         'jeu': jeu,
         'items': items,
         'quetes': quetes,
-        'user_has_item': user_has_item,
-        'user_has_quete': user_has_quete,
         'user': request.user,
     }
     return render(request, 'game.html', context)

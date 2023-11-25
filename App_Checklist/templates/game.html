@@ -26,9 +26,7 @@
                <a href="{% url 'toggle_obtenu_quete' quete.id %}">{{ quete.titre }}</a>
                 <li><a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.titre }}</a></li>
             {% endfor %}
-        </ul>
-        <!-- Dans game_detail.html -->
-        
+        </ul>        
     </div>
 {% endblock %}
 
