@@ -37,6 +37,7 @@ urlpatterns = [
     path('favoris/<int:jeu_id>/', views.toggle_favoris, name='toggle_favoris'),
     path('toggle-obtenu-item/<int:item_id>/', views.toggle_obtenu_item, name='toggle_obtenu_item'),
     path('toggle-obtenu-quete/<int:quete_id>/', views.toggle_obtenu_quete, name='toggle_obtenu_quete'),
+    path('update-progression/<int:jeu_id>/', views.update_progression, name='update_progression'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

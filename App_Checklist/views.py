@@ -107,3 +107,40 @@ def toggle_obtenu_quete(request, quete_id):
         profil_utilisateur.quetes_obtenues.add(quete)
 
     return redirect('game_detail')
+
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+@login_required
+def update_progression(request, jeu_id):
+    if request.method == 'POST':
+        profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
+        jeu = get_object_or_404(Jeu, pk=jeu_id)
+        
+        # Update items
+        items = Item.objects.filter(jeu=jeu)
+        for item in items:
+            item_checkbox = request.POST.get(f'item_{item.id}', False)
+            if item_checkbox and not item in profil_utilisateur.items_obtenus.all():
+                profil_utilisateur.items_obtenus.add(item)
+            elif not item_checkbox and item in profil_utilisateur.items_obtenus.all():
+                profil_utilisateur.items_obtenus.remove(item)
+        
+        # Update quests
+        quetes = Quete.objects.filter(jeu=jeu)
+        for quete in quetes:
+            quete_checkbox = request.POST.get(f'quete_{quete.id}', False)
+            if quete_checkbox and not quete in profil_utilisateur.quetes_obtenues.all():
+                profil_utilisateur.quetes_obtenues.add(quete)
+            elif not quete_checkbox and quete in profil_utilisateur.quetes_obtenues.all():
+                profil_utilisateur.quetes_obtenues.remove(quete)
+        
+        # Save the profile after making changes
+        profil_utilisateur.save()
+        
+        # Redirect to the game detail page
+        return HttpResponseRedirect(reverse('game_detail', args=[jeu.id]))
+    else:
+        # If not a POST request, redirect to the game detail page without making changes
+        return HttpResponseRedirect(reverse('game_detail', args=[jeu_id]))
+

@@ -7,16 +7,14 @@
 </div>
 </div>
 <div class="content">
+    <form method="post" action="{% url 'update_progression' jeu.id %}">
         {% csrf_token %}
-        <h1>{{ jeu.nom }}</h1>
-        <p>{{ jeu.description }}</p>
-
         <h2>Items</h2>
         <ul>
             {% for item in items %}
                 <li>
-                        <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item in profil_utilisateur.items_obtenus.all %}checked{% endif %}>
-                        <label for="item_{{ item.id }}">{{ item.nom }}</label><br>        
+                    <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item in profil_utilisateur.items_obtenus.all %}checked{% endif %}>
+                    <label for="item_{{ item.id }}">{{ item.nom }}</label><br>        
                 </li>
             {% endfor %}
         </ul>
