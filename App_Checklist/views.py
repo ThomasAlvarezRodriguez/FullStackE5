@@ -28,8 +28,17 @@ def jeux_list(request):
 def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
-    quetes= Quete.objects.filter(jeu=jeu)
-    return render(request, 'game.html', {'jeu': jeu, 'items': items, 'quetes': quetes})
+    quetes = Quete.objects.filter(jeu=jeu)
+    # Ajoutez les fonctions au contexte pour qu'elles soient utilisables dans le template
+    context = {
+        'jeu': jeu,
+        'items': items,
+        'quetes': quetes,
+        'user_has_item': user_has_item,
+        'user_has_quete': user_has_quete,
+        'user': request.user,
+    }
+    return render(request, 'game_detail.html', context)
 
 def item_detail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
@@ -121,3 +130,9 @@ def update_progression(request, jeu_id):
     else:
         # Si la méthode n'est pas POST, redirigez l'utilisateur ou affichez une erreur
         return redirect('game_detail', jeu_id=jeu_id)
+    
+def user_has_item(item, user):
+    return ProgressionItem.objects.filter(item=item, utilisateur=user, obtenu=True).exists()
+
+def user_has_quete(quete, user):
+    return ProgressionQuete.objects.filter(quete=quete, utilisateur=user, obtenu=True).exists()
