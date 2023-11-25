@@ -13,32 +13,10 @@
     <h2>Items</h2>
     <ul>
         {% for item, is_obtained in items_with_status %}
-        <li>
-            {{ item.nom }}
-            {% if request.user.is_authenticated %}
-                <form method="post" action="{% url 'toggle_obtenu_item' item.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="obtain-button {% if is_obtained %}remove-obtain{% endif %}">
-                        {% if is_obtained %}
-                        Obtenu
-                        {% else %}
-                        Non obtenu
-                        {% endif %}
-                    </button>
-                </form>
-            {% endif %}
-        </li>
-    {% endfor %}
-    
-    </ul>
-
-    <h2>Quêtes</h2>
-    <ul>
-        {% for quete, is_obtained in quetes_with_status %}
     <li>
-        {{ quete.titre }}
+        <a href="{% url 'item_detail' item_id=item.id %}">{{ item.nom }}</a>
         {% if request.user.is_authenticated %}
-            <form method="post" action="{% url 'toggle_obtenu_quete' quete.id %}">
+            <form method="post" action="{% url 'toggle_obtenu_item' item.id %}" style="display: inline;">
                 {% csrf_token %}
                 <button type="submit" class="obtain-button {% if is_obtained %}remove-obtain{% endif %}">
                     {% if is_obtained %}
@@ -52,6 +30,21 @@
     </li>
 {% endfor %}
 
-    </ul>
-</div>
-{% endblock %}
+{% for quete, is_obtained in quetes_with_status %}
+    <li>
+        <a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.titre }}</a>
+        {% if request.user.is_authenticated %}
+            <form method="post" action="{% url 'toggle_obtenu_quete' quete.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="obtain-button {% if is_obtained %}remove-obtain{% endif %}">
+                    {% if is_obtained %}
+                        Obtenu
+                    {% else %}
+                        Non obtenu
+                    {% endif %}
+                </button>
+            </form>
+        {% endif %}
+    </li>
+{% endfor %}
+
