@@ -105,11 +105,37 @@ def toggle_obtenu_quete(request, quete_id):
     progression.save()
     return redirect('chemin_retour')
 
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Item, Quete, ProgressionItem, ProgressionQuete
+
 @login_required
 def update_progression_globale(request, jeu_id):
     if request.method == 'POST':
-        # Traitez les items cochés
-        # Traitez les quêtes cochées
+        # Mettre à jour la progression des items
+        for key, value in request.POST.items():
+            if key.startswith('item_'):
+                item_id = key.split('_')[1]
+                item = get_object_or_404(Item, pk=item_id)
+                obtenu = value == 'on'
+                ProgressionItem.objects.update_or_create(
+                    utilisateur=request.user, item=item,
+                    defaults={'obtenu': obtenu}
+                )
+
+        # Mettre à jour la progression des quêtes
+        for key, value in request.POST.items():
+            if key.startswith('quete_'):
+                quete_id = key.split('_')[1]
+                quete = get_object_or_404(Quete, pk=quete_id)
+                accomplie = value == 'on'
+                ProgressionQuete.objects.update_or_create(
+                    utilisateur=request.user, quete=quete,
+                    defaults={'accomplie': accomplie}
+                )
+
         # Redirigez l'utilisateur vers la page du jeu après la mise à jour
-        # ...
-    return redirect('chemin_retour')
+        return redirect('game_detail', jeu_id=jeu_id)
+
+    # Rediriger vers la page du jeu si la méthode n'est pas POST
+    return redirect('game_detail', jeu_id=jeu_id)
