@@ -10,44 +10,46 @@
     <h1>{{ jeu.nom }}</h1>
     <p>{{ jeu.description }}</p>
 
-    {% if request.user.is_authenticated %}
-    <form method="post" action="{% url 'update_progression' jeu.id %}">
-        {% csrf_token %}
-        <h2>Items</h2>
-        <ul>
-            {% for item in items %}
-                <li>
-                    <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item in profil_utilisateur.items_obtenus.all %}checked{% endif %}>
-                    <label for="item_{{ item.id }}">{{ item.nom }}</label>
-                </li>
-            {% endfor %}
-        </ul>
+    <h2>Items</h2>
+    <ul>
+        {% for item in items %}
+            <li>
+                {{ item.nom }}
+                {% if request.user.is_authenticated %}
+                <form method="post" action="{% url 'toggle_obtenu_item' item.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="obtain-button {% if item in profil_utilisateur.items_obtenus.all %}remove-obtain{% endif %}">
+                        {% if item in profil_utilisateur.items_obtenus.all %}
+                            Retirer des obtenus
+                        {% else %}
+                            Marquer comme obtenu
+                        {% endif %}
+                    </button>
+                </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
 
-        <h2>Quêtes</h2>
-        <ul>
-            {% for quete in quetes %}
-                <li>
-                    <input type="checkbox" name="quete_{{ quete.id }}" id="quete_{{ quete.id }}" {% if quete in profil_utilisateur.quetes_obtenues.all %}checked{% endif %}>
-                    <label for="quete_{{ quete.id }}">{{ quete.titre }}</label>
-                </li>
-            {% endfor %}
-        </ul>
-        <input type="submit" value="Mettre à jour la progression">
-    </form>
-    {% else %}
-        <h2>Items</h2>
-        <ul>
-            {% for item in items %}
-                <li>{{ item.nom }}</li>
-            {% endfor %}
-        </ul>
-
-        <h2>Quêtes</h2>
-        <ul>
-            {% for quete in quetes %}
-                <li>{{ quete.titre }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <h2>Quêtes</h2>
+    <ul>
+        {% for quete in quetes %}
+            <li>
+                {{ quete.titre }}
+                {% if request.user.is_authenticated %}
+                <form method="post" action="{% url 'toggle_obtenu_quete' quete.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="obtain-button {% if quete in profil_utilisateur.quetes_obtenues.all %}remove-obtain{% endif %}">
+                        {% if quete in profil_utilisateur.quetes_obtenues.all %}
+                            Retirer des obtenues
+                        {% else %}
+                            Marquer comme obtenue
+                        {% endif %}
+                    </button>
+                </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

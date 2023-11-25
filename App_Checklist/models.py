@@ -36,8 +36,8 @@ class Quete(models.Model):
 class ProfilUtilisateur(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     jeux_favoris = models.ManyToManyField(Jeu)
-    items_obtenus = models.ManyToManyField(Item, blank=True)
-    quetes_obtenues = models.ManyToManyField(Quete, blank=True)
+    items_obtenus = models.ManyToManyField(Item)
+    quetes_obtenues = models.ManyToManyField(Quete)
 
     def __str__(self):
         return self.user.username
