@@ -101,6 +101,15 @@ def toggle_obtenu_item(request, item_id):
 def toggle_obtenu_quete(request, quete_id):
     quete = get_object_or_404(Quete, pk=quete_id)
     progression, created = ProgressionQuete.objects.get_or_create(utilisateur=request.user, quete=quete)
-    progression.accomplie = not progression.accomplie
+    progression.obtenu = not progression.obtenu  # Utilisez l'attribut correct ici
     progression.save()
+    return redirect('chemin_retour')
+
+@login_required
+def update_progression_globale(request, jeu_id):
+    if request.method == 'POST':
+        # Traitez les items cochés
+        # Traitez les quêtes cochées
+        # Redirigez l'utilisateur vers la page du jeu après la mise à jour
+        # ...
     return redirect('chemin_retour')

@@ -6,36 +6,34 @@
 <div class="breadcrumb">
     <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > {{ jeu.nom }}
 </div>
+</div>
 <div class="content">
-    <h1>{{ jeu.nom }}</h1>
-    <p>{{ jeu.description }}</p>
+    <form method="post" action="{% url 'update_progression_globale' jeu.id %}">
+        {% csrf_token %}
+        <h1>{{ jeu.nom }}</h1>
+        <p>{{ jeu.description }}</p>
 
-    <h2>Items</h2>
-    <ul>
-        {% for item in items %}
-            <li>
-                <form method="post" action="{% url 'toggle_obtenu_item' item.id %}">
-                    {% csrf_token %}
-                    <input type="checkbox" name="obtenu" id="item_{{ item.id }}" {% if item.est_obtenu %}checked{% endif %}>
+        <h2>Items</h2>
+        <ul>
+            {% for item in items %}
+                <li>
+                    <input type="checkbox" name="item_{{ item.id }}" {% if item.est_obtenu %}checked{% endif %}>
                     <label for="item_{{ item.id }}">{{ item.nom }}</label>
-                    <button type="submit">Mettre à jour</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
+                </li>
+            {% endfor %}
+        </ul>
 
-    <h2>Quêtes</h2>
-    <ul>
-        {% for quete in quetes %}
-            <li>
-                <form method="post" action="{% url 'toggle_obtenu_quete' quete.id %}">
-                    {% csrf_token %}
-                    <input type="checkbox" name="accomplie" id="quete_{{ quete.id }}" {% if quete.est_accomplie %}checked{% endif %}>
+        <h2>Quêtes</h2>
+        <ul>
+            {% for quete in quetes %}
+                <li>
+                    <input type="checkbox" name="quete_{{ quete.id }}" {% if quete.est_accomplie %}checked{% endif %}>
                     <label for="quete_{{ quete.id }}">{{ quete.titre }}</label>
-                    <button type="submit">Mettre à jour</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <button type="submit">Mettre à jour la progression</button>
+    </form>
 </div>
 {% endblock %}
