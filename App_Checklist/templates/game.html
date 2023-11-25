@@ -18,7 +18,7 @@
             {% endfor %}
         </ul>
         <!--test-->
-        <form method="post" action="{% url 'update_progression_item' %}">
+            <a href="{% url 'update_progression_item' item_id=item.id %}">Marquer comme obtenu</a>
             {% csrf_token %}
             {% for item in items %}
                 <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item.obtenu %}checked{% endif %}>

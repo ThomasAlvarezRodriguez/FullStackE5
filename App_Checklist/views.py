@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 def home_view(request):
     return render(request, 'home.html')
@@ -29,11 +30,15 @@ def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
     quetes= Quete.objects.filter(jeu=jeu)
-    return render(request, 'game.html', {'jeu': jeu, 'items': items, 'quetes': quetes})
+    context = {
+                'progression_url': progression_url,
+        }
+    return render(request, 'game.html', {'jeu': jeu, 'items': items, 'quetes': quetes},context)
 
 def item_detail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     jeu = item.jeu  # Assurez-vous que l'item a une relation avec un jeu
+    progression_url = reverse('update_progression_item', kwargs={'item_id': item.id})
     return render(request, 'item_detail.html', {'item': item, 'jeu': jeu})
 
 def quete_detail(request, quete_id):
