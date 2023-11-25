@@ -88,12 +88,17 @@ def toggle_obtenu_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
 
+    # Toggle the item obtained status
     if item in profil_utilisateur.items_obtenus.all():
         profil_utilisateur.items_obtenus.remove(item)
     else:
         profil_utilisateur.items_obtenus.add(item)
 
-    return redirect('game_detail')
+    profil_utilisateur.save()
+
+    # Redirect to the 'game_detail' view with the correct 'jeu_id' argument
+    return redirect('game_detail', jeu_id=item.jeu.id)
+
 
 
 @login_required
@@ -101,12 +106,16 @@ def toggle_obtenu_quete(request, quete_id):
     quete = get_object_or_404(Quete, pk=quete_id)
     profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
 
+    # Toggle the quest obtained status
     if quete in profil_utilisateur.quetes_obtenues.all():
         profil_utilisateur.quetes_obtenues.remove(quete)
     else:
         profil_utilisateur.quetes_obtenues.add(quete)
 
-    return redirect('game_detail')
+    profil_utilisateur.save()
+
+    # Redirect to the 'game_detail' view with the correct 'jeu_id' argument
+    return redirect('game_detail', jeu_id=quete.jeu.id)
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse
