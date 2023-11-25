@@ -38,7 +38,7 @@ def game_detail(request, jeu_id):
         'user_has_quete': user_has_quete,
         'user': request.user,
     }
-    return render(request, 'game_detail.html', context)
+    return render(request, 'game.html', context)
 
 def item_detail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
