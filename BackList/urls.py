@@ -18,7 +18,9 @@ from django.contrib import admin
 from django.urls import path
 from App_Checklist import views
 from App_Checklist.views import jeux_list
-
+from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.home_view, name='home'),
@@ -28,6 +30,12 @@ urlpatterns = [
     path('jeux/', jeux_list, name='jeux_list'),
     path('admin/', admin.site.urls),
     path('items/<int:item_id>/', views.item_detail, name='item_detail'),
+    path('quetes/<int:quete_id>/', views.quete_detail, name='quete_detail'),
     path('profil/', views.profile_view, name='profile'),
+    path('connexion/', auth_views.LoginView.as_view(template_name='connexion.html'), name='login'),
+    path('deconnexion/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+    path('favoris/<int:jeu_id>/', views.toggle_favoris, name='toggle_favoris'),
 
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

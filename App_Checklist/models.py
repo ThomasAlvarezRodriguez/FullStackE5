@@ -20,6 +20,7 @@ class Item(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to='images/', null=True, blank=True)
 
+
     def __str__(self):
         return self.nom
     
@@ -30,7 +31,7 @@ class Quete(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return self.titre
+        return self.nom
 
 class ProfilUtilisateur(models.Model):
     id = models.AutoField(primary_key=True)

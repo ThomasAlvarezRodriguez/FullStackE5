@@ -1,16 +1,24 @@
 from django.http import HttpResponse
 from django.shortcuts import render,get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 def home_view(request):
     return render(request, 'home.html')
 
+@login_required
 def profile_view(request):
-    return render(request, 'profile.html')
+    profil_utilisateur, created = ProfilUtilisateur.objects.get_or_create(user=request.user)
+    jeux_favoris = profil_utilisateur.jeux_favoris.all()
+
+    return render(request, 'profile.html', {
+        'profil_utilisateur': profil_utilisateur,
+        'jeux_favoris': jeux_favoris,
+    })
 
 def game_view(request):
     return render(request, 'game.html')
 
-from .models import Jeu, Item
+from .models import Jeu, Item, Quete
 
 def jeux_list(request):
     jeux = Jeu.objects.all()  # Récupère tous les jeux
@@ -20,14 +28,18 @@ def jeux_list(request):
 def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
-    return render(request, 'game.html', {'jeu': jeu, 'items': items})
+    quetes= Quete.objects.filter(jeu=jeu)
+    return render(request, 'game.html', {'jeu': jeu, 'items': items, 'quetes': quetes})
 
 def item_detail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     jeu = item.jeu  # Assurez-vous que l'item a une relation avec un jeu
     return render(request, 'item_detail.html', {'item': item, 'jeu': jeu})
 
-from django.contrib.auth.decorators import login_required
+def quete_detail(request, quete_id):
+    quete = get_object_or_404(Quete, pk=quete_id)
+    jeu = quete.jeu  
+    return render(request, 'quete_detail.html', {'quete': quete, 'jeu': jeu})
 
 @login_required
 def profile_view(request):
@@ -53,3 +65,20 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profilutilisateur.save()
+
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Jeu, ProfilUtilisateur
+
+@login_required
+def toggle_favoris(request, jeu_id):
+    jeu = get_object_or_404(Jeu, pk=jeu_id)
+    profil_utilisateur, created = ProfilUtilisateur.objects.get_or_create(user=request.user)
+
+    if jeu in profil_utilisateur.jeux_favoris.all():
+        profil_utilisateur.jeux_favoris.remove(jeu)
+    else:
+        profil_utilisateur.jeux_favoris.add(jeu)
+
+    return redirect('jeux_list')  # Redirigez l'utilisateur vers la liste des jeux
+
