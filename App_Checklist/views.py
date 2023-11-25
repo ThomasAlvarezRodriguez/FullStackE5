@@ -48,7 +48,7 @@ def game_detail(request, jeu_id):
         'quetes_with_status': quetes_with_status,
     }
 
-    return render(request, 'game_detail.html', context)
+    return render(request, 'game.html', context)
 
 
 
