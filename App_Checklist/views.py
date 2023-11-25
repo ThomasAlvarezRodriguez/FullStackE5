@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
 
 def home_view(request):
     return render(request, 'home.html')
@@ -26,22 +25,15 @@ def jeux_list(request):
     return render(request, 'jeux_list.html', {'jeux': jeux})
 
 
-
 def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
-    quetes = Quete.objects.filter(jeu=jeu)
-    context = {
-        'jeu': jeu,
-        'items': items,
-        'quetes': quetes,
-    }
-    return render(request, 'game.html', context)
+    quetes= Quete.objects.filter(jeu=jeu)
+    return render(request, 'game.html', {'jeu': jeu, 'items': items, 'quetes': quetes})
 
 def item_detail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     jeu = item.jeu  # Assurez-vous que l'item a une relation avec un jeu
-    progression_url = reverse('update_progression_item', kwargs={'item_id': item.id})
     return render(request, 'item_detail.html', {'item': item, 'jeu': jeu})
 
 def quete_detail(request, quete_id):
@@ -76,7 +68,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Jeu, ProfilUtilisateur
+from .models import Jeu, ProfilUtilisateur, Item, Quete, ProgressionItem, ProgressionQuete
 
 @login_required
 def toggle_favoris(request, jeu_id):
@@ -90,36 +82,42 @@ def toggle_favoris(request, jeu_id):
 
     return redirect('jeux_list')  # Redirigez l'utilisateur vers la liste des jeux
 
+from django.http import JsonResponse
+
+@login_required
+def toggle_obtenu_item(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    progression, created = ProgressionItem.objects.get_or_create(utilisateur=request.user, item=item)
+    progression.obtenu = not progression.obtenu
+    progression.save()
+    return JsonResponse({'obtenu': progression.obtenu})
+
+@login_required
+def toggle_obtenu_quete(request, quete_id):
+    quete = get_object_or_404(Quete, pk=quete_id)
+    progression, created = ProgressionQuete.objects.get_or_create(utilisateur=request.user, quete=quete)
+    progression.obtenu = not progression.obtenu
+    progression.save()
+    return JsonResponse({'obtenu': progression.obtenu})
+# Dans views.py
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from .models import Item, ProgressionItem, Quete, ProgressionQuete
 
 @login_required
-def update_progression_item(request):
+def update_progression(request, jeu_id):
     if request.method == 'POST':
-        for key in request.POST:
+        # Traitez les items cochés
+        for key, value in request.POST.items():
             if key.startswith('item_'):
                 item_id = key.split('_')[1]
-                item = Item.objects.get(id=item_id)
-                obtenu = request.POST[key] == 'on'
+                item = get_object_or_404(Item, pk=item_id)
                 ProgressionItem.objects.update_or_create(
                     utilisateur=request.user, item=item,
-                    defaults={'obtenu': obtenu}
+                    defaults={'obtenu': value == 'on'}
                 )
-        # Vous pouvez ajouter une gestion similaire pour les quêtes ici.
-    return redirect('some_view_name')
-
-@login_required
-def update_progression_quete(request):
-    if request.method == 'POST':
-        for key in request.POST:
-            if key.startswith('quete'):
-                quete_id = key.split('_')[1]
-                quete = Quete.objects.get(id=quete_id)
-                obtenu = request.POST[key] == 'on'
-                ProgressionQuete.objects.update_or_create(
-                    utilisateur=request.user, quete=quete,
-                    defaults={'obtenu': obtenu}
-                )
-        # Vous pouvez ajouter une gestion similaire pour les quêtes ici.
-    return redirect('some_view_name')
+        # Traitez les quêtes cochées de manière similaire...
+        # Redirigez l'utilisateur vers la page du jeu après la mise à jour
+        return redirect('game_detail', jeu_id=jeu_id)
+    else:
+        # Si la méthode n'est pas POST, redirigez l'utilisateur ou affichez une erreur
+        return redirect('game_detail', jeu_id=jeu_id)

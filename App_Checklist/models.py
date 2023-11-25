@@ -54,7 +54,7 @@ class ProgressionItem(models.Model):
 class ProgressionQuete(models.Model):
     utilisateur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     quete = models.ForeignKey(Quete, on_delete=models.CASCADE)
-    accomplie = models.BooleanField(default=False)
+    obtenu = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('utilisateur', 'quete')

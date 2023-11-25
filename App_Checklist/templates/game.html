@@ -1,46 +1,46 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ jeu.nom }}{% endblock %}
+{% block title %}Page de jeu{% endblock %}
 
+<!-- Dans game.html -->
 {% block content %}
-<div class="breadcrumb">
-    <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > {{ jeu.nom }}
-</div>
-<div class="content">
-    <h1>{{ jeu.nom }}</h1>
-    <p>{{ jeu.description }}</p>
-    
-    <div class="progression">
-        <label for="progression_items">Progression des Items:</label>
-        <progress id="progression_items" value="{{ progression_items }}" max="100"> {{ progression_items }}% </progress>
-    
-        <label for="progression_quetes">Progression des Quêtes:</label>
-        <progress id="progression_quetes" value="{{ progression_quetes }}" max="100"> {{ progression_quetes }}% </progress>
+    <div class="breadcrumb">
+        <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > {{ jeu.nom }}
     </div>
-
-    <!-- Liste des items avec formulaire pour mettre à jour la progression -->
-    <form method="post" action="{% url 'update_progression_item' %}">
-        {% csrf_token %}
+    <div class="content">
+        <h1>{{ jeu.nom }}</h1>
+        <p>{{ jeu.description }}</p>
+        <!-- Liste des items -->
         <h2>Items</h2>
         <ul>
             {% for item in items %}
-                <li>
-                    {{ item.nom }}
-                    <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item.obtenu %}checked{% endif %}>
-                    <label for="item_{{ item.id }}">Obtenu</label>
-                </li>
+                <li><a href="{% url 'item_detail' item_id=item.id %}">{{ item.nom }}</a></li>
+                
             {% endfor %}
         </ul>
-        <input type="submit" value="Mettre à jour">
-    </form>
 
-    <!-- Liste des quêtes -->
-    <h2>Quêtes</h2>
-    <ul>
-        {% for quete in quetes %}
-            <li>{{ quete.titre }}</li>
-        {% endfor %}
-    </ul>
-    
-</div>
+        <h2>Quetes</h2>
+        <ul>
+            {% for quete in quetes %}
+                <li><a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.titre }}</a></li>
+            {% endfor %}
+        </ul>
+        <!-- Dans game_detail.html -->
+<form method="post" action="{% url 'update_progression' jeu_id=jeu.id %}">
+    {% csrf_token %}
+    {% for item in items %}
+        <input type="checkbox" name="item_{{ item.id }}" {% if item.obtenu %}checked{% endif %}>
+        <label for="item_{{ item.id }}">{{ item.nom }}</label><br>
+    {% endfor %}
+    {% for quete in quetes %}
+        <input type="checkbox" name="quete_{{ quete.id }}" {% if quete.obtenu %}checked{% endif %}>
+        <label for="quete_{{ quete.id }}">{{ quete.titre }}</label><br>
+    {% endfor %}
+    <input type="submit" value="Mettre à jour">
+</form>
+
+        
+    </div>
 {% endblock %}
+
+
