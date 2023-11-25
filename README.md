@@ -1,13 +1,73 @@
-# FullStackE5
+# HUB de Checklist pour Jeux Vidéo
 
+## Description
+Ce site HUB est conçu pour permettre aux joueurs de gérer des checklists personnalisées pour leurs jeux vidéo favoris. Utilisant Django et PostgreSQL, le site offre une interface intuitive pour une expérience utilisateur optimale.
 
-Jeux : Si rien n'a été sélectionné : Vous n'avez rien sélectionné, vous pouvez sélectionner un jeu depuis la Liste des jeux (hyperlien cliquable)
+## Technologies Utilisées
+- **Django** : Framework web pour le backend.
+- **PostgreSQL** : Système de gestion de base de données.
+- **Heroku** : Plateforme de déploiement en cloud.
 
-Si un jeu a été sélectionné : Affiche le nom, la description et les achievements du jeu, ainsi que (dans un second temps) la progression de l'utilisateur dans les achievements du jeu.
+## Installation et Configuration
+Pour installer et configurer ce projet localement, suivez ces étapes :
 
-Profil : Les jeux de l'utilisateur et ses progrès dedans (peut être généraliste, avec un pourcentage de progression par jeu, ou détaillé, avec les achievements débloqués et ceux restants à débloquer)
+1. Clonez le dépôt :
+```bash
+git clone https://github.com/ThomasAlvarezRodriguez/FullStackE5.git
+```
+2. Créez un environnement virtuel :
+```bash
+python -m venv env
+```
+3. Activez l'environnement virtuel :
+```bash
+source env/scripts/activate
+```
+4. Installez les dépendances :
+```bash
+pip install -r requirements.txt
+```
+5. Créez un fichier .env à la racine du projet et ajoutez-y les variables d'environnement suivantes :
+```bash
+SECRET_KEY=your_secret_key
+DEBUG=True
+```
+6. Créez une base de données PostgreSQL et ajoutez-y les variables d'environnement suivantes :
+```bash
+DATABASE_NAME=your_database_name
+DATABASE_USER=your_database_user
+DATABASE_PASSWORD=your_database_password
+DATABASE_HOST=your_database_host
+DATABASE_PORT=your_database_port
+```
+7. Appliquez les migrations :
+```bash
+python manage.py migrate
+```
+8. Créez un super utilisateur :
+```bash
+python manage.py createsuperuser
+```
+9. Lancez le serveur :
+```bash
+python manage.py runserver
+```
+10. Rendez-vous sur http://localhost:8000/ pour accéder au site.
 
-Liste des jeux : Liste des jeux disponibles, avec un lien vers la page du jeu
+Assurez-vous d'avoir installé PostgreSQL et d'avoir créé une base de données avant de lancer le serveur. Pour plus d'informations, consultez la documentation de Django : https://docs.djangoproject.com/en/3.2/ref/databases/#postgresql-notes
+Le site est configuré pour utiliser une base de données PostgreSQL hébergée sur Heroku. Pour utiliser une base de données locale, il faudra modifier le fichier settings.py en conséquence.
 
-Accueil : Login OU page d'introduction à l'application. 
+## Heroku
+Le site est déployé sur Heroku à l'adresse suivante : https://checkliste5-b41e5aa2e648.herokuapp.com
+
+## Utilisation
+Une fois le site installé, vous pouvez :
+- Créer un compte utilisateur.
+- Ajouter de nouveaux jeux à votre liste de favoris.
+- Gérer vos checklists pour chaque jeu.
+
+## Auteur
+Thomas Alvarez Rodriguez
+Alexande Dias
+```
 
