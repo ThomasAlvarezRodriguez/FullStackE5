@@ -34,23 +34,24 @@
 
     <h2>Quêtes</h2>
     <ul>
-        {% for quete in quetes %}
-            <li>
-                {{ quete.titre }}
-                {% if request.user.is_authenticated %}
-                <form method="post" action="{% url 'toggle_obtenu_quete' quete.id %}" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="obtain-button {% if quete in profil_utilisateur.quetes_obtenues.all %}remove-obtain{% endif %}">
-                        {% if quete in profil_utilisateur.quetes_obtenues.all %}
-                            Retirer des obtenues
-                        {% else %}
-                            Marquer comme obtenue
-                        {% endif %}
-                    </button>
-                </form>
-                {% endif %}
-            </li>
-        {% endfor %}
+        {% for quete, is_obtained in quetes_with_status %}
+    <li>
+        {{ quete.titre }}
+        {% if request.user.is_authenticated %}
+            <form method="post" action="{% url 'toggle_obtenu_quete' quete.id %}">
+                {% csrf_token %}
+                <button type="submit">
+                    {% if is_obtained %}
+                        Retirer des obtenues
+                    {% else %}
+                        Marquer comme obtenue
+                    {% endif %}
+                </button>
+            </form>
+        {% endif %}
+    </li>
+{% endfor %}
+
     </ul>
 </div>
 {% endblock %}

@@ -30,16 +30,30 @@ from django.shortcuts import render
 def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
-    profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
+    quetes = Quete.objects.filter(jeu=jeu)
+    # Get the user's profile if they are logged in
+    if request.user.is_authenticated:
+    
+        profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
 
-    # Include whether each item is obtained in the template context
-    items_with_status = [(item, item in profil_utilisateur.items_obtenus.all()) for item in items]
+        # Include whether each item is obtained in the template context
+        items_with_status = [(item, item in profil_utilisateur.items_obtenus.all()) for item in items]
+        quetes_with_status = [(quete, quete in profil_utilisateur.quetes_obtenues.all()) for quete in quetes]
 
-    return render(request, 'game.html', {
+        return render(request, 'game.html', {
+            'jeu': jeu,
+            'items_with_status': items_with_status,
+            'quetes_with_status': quetes_with_status,
+            # Include other necessary context
+        })
+    #Display the game detail page if the user is not logged in
+    else:
+        return render(request, 'game.html', {
         'jeu': jeu,
-        'items_with_status': items_with_status,
-        # Include other necessary context
+        'items': items,
+        'quetes': quetes,
     })
+    
 
 
 def item_detail(request, item_id):
@@ -112,16 +126,15 @@ def toggle_obtenu_quete(request, quete_id):
     quete = get_object_or_404(Quete, pk=quete_id)
     profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
 
-    # Toggle the quest obtained status
     if quete in profil_utilisateur.quetes_obtenues.all():
         profil_utilisateur.quetes_obtenues.remove(quete)
     else:
         profil_utilisateur.quetes_obtenues.add(quete)
-
     profil_utilisateur.save()
 
-    # Redirect to the 'game_detail' view with the correct 'jeu_id' argument
+    # Redirect to the detail view of the game to which the quest belongs
     return redirect('game_detail', jeu_id=quete.jeu.id)
+
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse
