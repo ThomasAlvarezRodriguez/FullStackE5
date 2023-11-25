@@ -93,7 +93,7 @@ def toggle_obtenu_item(request, item_id):
     else:
         profil_utilisateur.items_obtenus.add(item)
 
-    return redirect('chemin_retour')
+    return redirect('game_detail')
 
 
 @login_required
@@ -106,4 +106,4 @@ def toggle_obtenu_quete(request, quete_id):
     else:
         profil_utilisateur.quetes_obtenues.add(quete)
 
-    return redirect('chemin_retour')
+    return redirect('game_detail')
