@@ -25,18 +25,25 @@ def jeux_list(request):
     return render(request, 'jeux_list.html', {'jeux': jeux})
 
 
+@login_required
 def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
-    items = Item.objects.filter(jeu=jeu)
-    quetes = Quete.objects.filter(jeu=jeu)
-    # Ajoutez les fonctions au contexte pour qu'elles soient utilisables dans le template
+    items = Item.objects.filter(jeu=jeu).prefetch_related('progressionitem_set')
+    quetes = Quete.objects.filter(jeu=jeu).prefetch_related('progressionquete_set')
+
+    # Créer un dictionnaire pour vérifier si l'utilisateur a obtenu chaque item et quête
+    items_obtenus = {progression.item.id: progression.obtenu for progression in ProgressionItem.objects.filter(utilisateur=request.user, item__in=items)}
+    quetes_obtenues = {progression.quete.id: progression.obtenu for progression in ProgressionQuete.objects.filter(utilisateur=request.user, quete__in=quetes)}
+
     context = {
         'jeu': jeu,
         'items': items,
         'quetes': quetes,
-        'user': request.user,
+        'items_obtenus': items_obtenus,
+        'quetes_obtenues': quetes_obtenues,
     }
     return render(request, 'game.html', context)
+
 
 def item_detail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)

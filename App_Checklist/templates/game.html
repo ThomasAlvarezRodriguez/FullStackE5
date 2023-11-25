@@ -17,8 +17,8 @@
         <ul>
             {% for item in items %}
                 <li>
-                    <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item.progressionitem.obtenu %}checked{% endif %}>
-                    <label for="item_{{ item.id }}">{{ item.nom }}</label><br>
+                    <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if items_obtenus|default:item.id False %}checked{% endif %}>
+                    <label for="item_{{ item.id }}">{{ item.nom }}</label><br>                
                 </li>
             {% endfor %}
         </ul>
@@ -27,7 +27,7 @@
         <ul>
             {% for quete in quetes %}
                 <li>
-                    <input type="checkbox" name="quete_{{ quete.id }}" id="quete_{{ quete.id }}" {% if quete.progressionquete.accomplie %}checked{% endif %}>
+                    <input type="checkbox" name="quete_{{ quete.id }}" id="quete_{{ quete.id }}" {% if quetes_obtenues|default:quete.id False %}checked{% endif %}>
                     <label for="quete_{{ quete.id }}">{{ quete.titre }}</label><br>
                 </li>
             {% endfor %}
