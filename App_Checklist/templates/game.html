@@ -29,12 +29,12 @@
 <form method="post" action="{% url 'update_progression' jeu_id=jeu.id %}">
     {% csrf_token %}
     {% for item in items %}
-        <input type="checkbox" name="item_{{ item.id }}" {% if item.obtenu %}checked{% endif %}>
-        <label for="item_{{ item.id }}">{{ item.nom }}</label><br>
+    <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if user_has_item(item, user) %}checked{% endif %}>
+    <label for="item_{{ item.id }}">{{ item.nom }}</label><br>
     {% endfor %}
     {% for quete in quetes %}
-        <input type="checkbox" name="quete_{{ quete.id }}" {% if quete.obtenu %}checked{% endif %}>
-        <label for="quete_{{ quete.id }}">{{ quete.titre }}</label><br>
+    <input type="checkbox" name="quete_{{ quete.id }}" id="quete_{{ quete.id }}" {% if user_has_quete(quete, user) %}checked{% endif %}>
+    <label for="quete_{{ quete.id }}">{{ quete.titre }}</label><br>
     {% endfor %}
     <input type="submit" value="Mettre à jour">
 </form>
