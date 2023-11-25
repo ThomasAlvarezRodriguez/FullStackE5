@@ -210,3 +210,33 @@ ul.jeux-list li a.details-link:hover {
     background-color: #c2e0ff; /* Un fond plus foncé au survol */
     text-decoration: underline; /* Souligner au survol pour indiquer que c'est cliquable */
 }
+/* style.css */
+.obtain-button {
+    padding: 5px 10px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.obtain-button:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid #4CAF50;
+}
+
+.remove-obtain {
+    background-color: #f44336; /* Red */
+}
+
+.remove-obtain:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid #f44336;
+}
