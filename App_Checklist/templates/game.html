@@ -1,33 +1,41 @@
 {% extends 'base.html' %}
 
-{% block title %}Page de jeu{% endblock %}
+{% block title %}{{ jeu.nom }}{% endblock %}
 
-<!-- Dans game.html -->
 {% block content %}
-    <div class="breadcrumb">
-        <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > {{ jeu.nom }}
-    </div>
-    <div class="content">
-        <h1>{{ jeu.nom }}</h1>
-        <p>{{ jeu.description }}</p>
-        <!-- Liste des items -->
-        <h2>Items</h2>
-        <ul>
-            {% for item in items %}
-                <a href="{% url 'toggle_obtenu_item' item.id %}">{{ item.nom }}</a>
-                <li><a href="{% url 'item_detail' item_id=item.id %}">{{ item.nom }}</a></li>
-                
-            {% endfor %}
-        </ul>
+<div class="breadcrumb">
+    <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > {{ jeu.nom }}
+</div>
+<div class="content">
+    <h1>{{ jeu.nom }}</h1>
+    <p>{{ jeu.description }}</p>
 
-        <h2>Quetes</h2>
-        <ul>
-            {% for quete in quetes %}
-               <a href="{% url 'toggle_obtenu_quete' quete.id %}">{{ quete.titre }}</a>
-                <li><a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.titre }}</a></li>
-            {% endfor %}
-        </ul>        
-    </div>
+    <h2>Items</h2>
+    <ul>
+        {% for item in items %}
+            <li>
+                <form method="post" action="{% url 'toggle_obtenu_item' item.id %}">
+                    {% csrf_token %}
+                    <input type="checkbox" name="obtenu" id="item_{{ item.id }}" {% if item.est_obtenu %}checked{% endif %}>
+                    <label for="item_{{ item.id }}">{{ item.nom }}</label>
+                    <button type="submit">Mettre à jour</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Quêtes</h2>
+    <ul>
+        {% for quete in quetes %}
+            <li>
+                <form method="post" action="{% url 'toggle_obtenu_quete' quete.id %}">
+                    {% csrf_token %}
+                    <input type="checkbox" name="accomplie" id="quete_{{ quete.id }}" {% if quete.est_accomplie %}checked{% endif %}>
+                    <label for="quete_{{ quete.id }}">{{ quete.titre }}</label>
+                    <button type="submit">Mettre à jour</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
-
-
