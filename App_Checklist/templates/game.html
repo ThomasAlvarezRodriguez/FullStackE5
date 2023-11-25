@@ -30,6 +30,7 @@
     </li>
 {% endfor %}
 
+    <h2>Quêtes</h2>
     {% for quete, is_obtained in quetes_with_status %}
     <li>
         <a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.titre }}</a>
