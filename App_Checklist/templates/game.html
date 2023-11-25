@@ -17,7 +17,16 @@
                 <li><a href="{% url 'item_detail' item_id=item.id %}">{{ item.nom }}</a></li>
             {% endfor %}
         </ul>
-
+        <!--test-->
+        <form method="post" action="{% url 'update_progression' %}">
+            {% csrf_token %}
+            {% for item in items %}
+                <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item.obtenu %}checked{% endif %}>
+                <label for="item_{{ item.id }}">{{ item.nom }}</label><br>
+            {% endfor %}
+            <input type="submit" value="Mettre à jour">
+        </form>
+        <!--test-->
         <h2>Quetes</h2>
         <ul>
             {% for quete in quetes %}

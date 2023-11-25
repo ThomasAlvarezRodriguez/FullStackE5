@@ -82,3 +82,21 @@ def toggle_favoris(request, jeu_id):
 
     return redirect('jeux_list')  # Redirigez l'utilisateur vers la liste des jeux
 
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from .models import Item, ProgressionItem
+
+@login_required
+def update_progression(request):
+    if request.method == 'POST':
+        for key in request.POST:
+            if key.startswith('item_'):
+                item_id = key.split('_')[1]
+                item = Item.objects.get(id=item_id)
+                obtenu = request.POST[key] == 'on'
+                ProgressionItem.objects.update_or_create(
+                    utilisateur=request.user, item=item,
+                    defaults={'obtenu': obtenu}
+                )
+        # Vous pouvez ajouter une gestion similaire pour les quêtes ici.
+    return redirect('some_view_name')
