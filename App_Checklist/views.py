@@ -53,3 +53,49 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profilutilisateur.save()
+
+
+from django.shortcuts import redirect
+from django.conf import settings
+
+def keycloak_login(request):
+    redirect_uri = request.build_absolute_uri('/callback/')  # Adjust the callback URL
+    return redirect(
+        f'{settings.KEYCLOAK_URL}/realms/{settings.KEYCLOAK_REALM}/protocol/openid-connect/auth?client_id={settings.KEYCLOAK_CLIENT_ID}&response_type=code&redirect_uri={redirect_uri}'
+    )
+
+
+
+import requests
+from django.conf import settings
+from django.http import JsonResponse
+
+def keycloak_callback(request):
+    code = request.GET.get('code')
+    redirect_uri = 'https://devliste5-880bb90a4eca.herokuapp.com/callback/'  # Adjust the callback URL
+
+    # Exchange code for token
+    response = requests.post(
+        f'{settings.KEYCLOAK_URL}/realms/{settings.KEYCLOAK_REALM}/protocol/openid-connect/token',
+        data={
+            'client_id': settings.KEYCLOAK_CLIENT_ID,
+            'client_secret': settings.KEYCLOAK_CLIENT_SECRET,
+            'grant_type': 'authorization_code',
+            'code': code,
+            'redirect_uri': redirect_uri
+        }
+    )
+    response_data = response.json()
+    access_token = response_data.get('access_token')
+
+    # Optionally: Fetch user info
+    user_info_response = requests.get(
+        f'{settings.KEYCLOAK_URL}/realms/{settings.KEYCLOAK_REALM}/protocol/openid-connect/userinfo',
+        headers={'Authorization': f'Bearer {access_token}'}
+    )
+    user_info = user_info_response.json()
+
+    # Process user info as needed
+    # ...
+
+    return JsonResponse(user_info)
