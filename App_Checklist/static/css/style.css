@@ -210,33 +210,33 @@ ul.jeux-list li a.details-link:hover {
     background-color: #c2e0ff; /* Un fond plus foncé au survol */
     text-decoration: underline; /* Souligner au survol pour indiquer que c'est cliquable */
 }
-/* style.css */
 .obtain-button {
-    padding: 5px 10px;
-    background-color: #4CAF50; /* Green */
+    padding: 10px 20px; /* Adjust padding to make the button large enough */
     color: white;
     border: none;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 16px; /* Adjust font size as needed */
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
+    min-width: 120px; /* Set a minimum width for the button */
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.24), 0 0 2px 0 rgba(0,0,0,0.12); /* Optional: adds a shadow for some depth */
 }
 
-.obtain-button:hover {
-    background-color: white;
-    color: black;
-    border: 1px solid #4CAF50;
+.obtain-button:not(.remove-obtain) {
+    background-color: #f44336; /* Red for not obtained */
 }
 
-.remove-obtain {
-    background-color: #f44336; /* Red */
+.obtain-button:not(.remove-obtain):hover {
+    background-color: #d32f2f; /* Darker red on hover */
 }
 
-.remove-obtain:hover {
-    background-color: white;
-    color: black;
-    border: 1px solid #f44336;
+.obtain-button.remove-obtain {
+    background-color: #4CAF50; /* Green for obtained */
+}
+
+.obtain-button.remove-obtain:hover {
+    background-color: #388E3C; /* Darker green on hover */
 }

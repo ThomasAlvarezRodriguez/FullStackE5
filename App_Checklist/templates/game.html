@@ -18,11 +18,11 @@
             {% if request.user.is_authenticated %}
                 <form method="post" action="{% url 'toggle_obtenu_item' item.id %}">
                     {% csrf_token %}
-                    <button type="submit">
+                    <button type="submit" class="obtain-button {% if is_obtained %}remove-obtain{% endif %}">
                         {% if is_obtained %}
-                             
+                        Obtenu
                         {% else %}
-                             
+                        Non obtenu
                         {% endif %}
                     </button>
                 </form>
@@ -40,11 +40,11 @@
         {% if request.user.is_authenticated %}
             <form method="post" action="{% url 'toggle_obtenu_quete' quete.id %}">
                 {% csrf_token %}
-                <button type="submit">
+                <button type="submit" class="obtain-button {% if is_obtained %}remove-obtain{% endif %}">
                     {% if is_obtained %}
-                        
+                        Obtenu
                     {% else %}
-                         
+                        Non obtenu
                     {% endif %}
                 </button>
             </form>
