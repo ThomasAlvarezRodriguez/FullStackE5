@@ -27,7 +27,7 @@
             {% if request.user.is_authenticated %}
             <input type="checkbox" name="quete_{{ quete.id }}" id="quete_{{ quete.id }}" {% if quete in profil_utilisateur.quetes_obtenues.all %}checked{% endif %}>
             {% endif %}
-                <li><a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.nom }}</a></li>
+                <li><a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.titre }}</a></li>
             {% endfor %}
         
     </div>
