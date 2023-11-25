@@ -27,18 +27,16 @@ def jeux_list(request):
 
 from django.shortcuts import render
 
-def game(request, jeu_id):
+def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
     quetes = Quete.objects.filter(jeu=jeu)
-    
-    # Initialize the context with items and quests set as not obtained
+
     items_with_status = [(item, False) for item in items]
     quetes_with_status = [(quete, False) for quete in quetes]
 
     if request.user.is_authenticated:
         profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
-        # Update 'items_with_status' and 'quetes_with_status' with the actual obtained status
         items_with_status = [(item, item in profil_utilisateur.items_obtenus.all()) for item in items]
         quetes_with_status = [(quete, quete in profil_utilisateur.quetes_obtenues.all()) for quete in quetes]
 
@@ -48,7 +46,8 @@ def game(request, jeu_id):
         'quetes_with_status': quetes_with_status,
     }
 
-    return render(request, 'game.html', context)
+    return render(request, 'game_detail.html', context)
+
 
 
 
@@ -108,28 +107,30 @@ def toggle_obtenu_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
 
+    # Toggle the item obtained status
     if item in profil_utilisateur.items_obtenus.all():
         profil_utilisateur.items_obtenus.remove(item)
     else:
         profil_utilisateur.items_obtenus.add(item)
     profil_utilisateur.save()
 
-    # Make sure to redirect to a view that shows the item, such as the item detail or game detail view
-    return redirect('game', jeu_id=item.jeu.id)
+    # Redirect back to the same page to show the updated status
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 @login_required
 def toggle_obtenu_quete(request, quete_id):
     quete = get_object_or_404(Quete, pk=quete_id)
     profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
 
+    # Toggle the quest obtained status
     if quete in profil_utilisateur.quetes_obtenues.all():
         profil_utilisateur.quetes_obtenues.remove(quete)
     else:
         profil_utilisateur.quetes_obtenues.add(quete)
     profil_utilisateur.save()
 
-    # Redirect to the detail view of the game to which the quest belongs
-    return redirect('game', jeu_id=quete.jeu.id)
+    # Redirect back to the same page to show the updated status
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 
 from django.http import HttpResponseRedirect
