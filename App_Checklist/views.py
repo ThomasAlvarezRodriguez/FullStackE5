@@ -31,29 +31,25 @@ def game_detail(request, jeu_id):
     jeu = get_object_or_404(Jeu, pk=jeu_id)
     items = Item.objects.filter(jeu=jeu)
     quetes = Quete.objects.filter(jeu=jeu)
-    # Get the user's profile if they are logged in
-    if request.user.is_authenticated:
     
-        profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
+    # Initialize the context with items and quests set as not obtained
+    items_with_status = [(item, False) for item in items]
+    quetes_with_status = [(quete, False) for quete in quetes]
 
-        # Include whether each item is obtained in the template context
+    if request.user.is_authenticated:
+        profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
+        # Update 'items_with_status' and 'quetes_with_status' with the actual obtained status
         items_with_status = [(item, item in profil_utilisateur.items_obtenus.all()) for item in items]
         quetes_with_status = [(quete, quete in profil_utilisateur.quetes_obtenues.all()) for quete in quetes]
 
-        return render(request, 'game.html', {
-            'jeu': jeu,
-            'items_with_status': items_with_status,
-            'quetes_with_status': quetes_with_status,
-            # Include other necessary context
-        })
-    #Display the game detail page if the user is not logged in
-    else:
-        return render(request, 'game.html', {
+    context = {
         'jeu': jeu,
-        'items': items,
-        'quetes': quetes,
-    })
-    
+        'items_with_status': items_with_status,
+        'quetes_with_status': quetes_with_status,
+    }
+
+    return render(request, 'game_detail.html', context)
+
 
 
 def item_detail(request, item_id):
