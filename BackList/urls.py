@@ -35,9 +35,8 @@ urlpatterns = [
     path('connexion/', auth_views.LoginView.as_view(template_name='connexion.html'), name='login'),
     path('deconnexion/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('favoris/<int:jeu_id>/', views.toggle_favoris, name='toggle_favoris'),
-     path('toggle-obtenu-item/<int:item_id>/', views.toggle_obtenu_item, name='toggle_obtenu_item'),
+    path('toggle-obtenu-item/<int:item_id>/', views.toggle_obtenu_item, name='toggle_obtenu_item'),
     path('toggle-obtenu-quete/<int:quete_id>/', views.toggle_obtenu_quete, name='toggle_obtenu_quete'),
-    path('jeux/<int:jeu_id>/update_progression/', views.update_progression, name='update_progression'),
 
 ]
 if settings.DEBUG:

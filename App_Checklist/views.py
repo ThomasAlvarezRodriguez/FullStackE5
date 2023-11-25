@@ -91,48 +91,18 @@ def toggle_favoris(request, jeu_id):
 
     return redirect('jeux_list')  # Redirigez l'utilisateur vers la liste des jeux
 
-from django.http import JsonResponse
-
 @login_required
 def toggle_obtenu_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     progression, created = ProgressionItem.objects.get_or_create(utilisateur=request.user, item=item)
     progression.obtenu = not progression.obtenu
     progression.save()
-    return JsonResponse({'obtenu': progression.obtenu})
+    return redirect('chemin_retour')
 
 @login_required
 def toggle_obtenu_quete(request, quete_id):
     quete = get_object_or_404(Quete, pk=quete_id)
     progression, created = ProgressionQuete.objects.get_or_create(utilisateur=request.user, quete=quete)
-    progression.obtenu = not progression.obtenu
+    progression.accomplie = not progression.accomplie
     progression.save()
-    return JsonResponse({'obtenu': progression.obtenu})
-# Dans views.py
-from django.shortcuts import redirect
-from django.contrib.auth.decorators import login_required
-
-@login_required
-def update_progression(request, jeu_id):
-    if request.method == 'POST':
-        # Traitez les items cochés
-        for key, value in request.POST.items():
-            if key.startswith('item_'):
-                item_id = key.split('_')[1]
-                item = get_object_or_404(Item, pk=item_id)
-                ProgressionItem.objects.update_or_create(
-                    utilisateur=request.user, item=item,
-                    defaults={'obtenu': value == 'on'}
-                )
-        # Traitez les quêtes cochées de manière similaire...
-        # Redirigez l'utilisateur vers la page du jeu après la mise à jour
-        return redirect('game_detail', jeu_id=jeu_id)
-    else:
-        # Si la méthode n'est pas POST, redirigez l'utilisateur ou affichez une erreur
-        return redirect('game_detail', jeu_id=jeu_id)
-    
-def user_has_item(item, user):
-    return ProgressionItem.objects.filter(item=item, utilisateur=user, obtenu=True).exists()
-
-def user_has_quete(quete, user):
-    return ProgressionQuete.objects.filter(quete=quete, utilisateur=user, obtenu=True).exists()
+    return redirect('chemin_retour')

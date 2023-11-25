@@ -14,6 +14,7 @@
         <h2>Items</h2>
         <ul>
             {% for item in items %}
+                <a href="{% url 'toggle_obtenu_item' item.id %}">{{ item.nom }}</a>
                 <li><a href="{% url 'item_detail' item_id=item.id %}">{{ item.nom }}</a></li>
                 
             {% endfor %}
@@ -22,23 +23,11 @@
         <h2>Quetes</h2>
         <ul>
             {% for quete in quetes %}
+               <a href="{% url 'toggle_obtenu_quete' quete.id %}">{{ quete.titre }}</a>
                 <li><a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.titre }}</a></li>
             {% endfor %}
         </ul>
         <!-- Dans game_detail.html -->
-<form method="post" action="{% url 'update_progression' jeu_id=jeu.id %}">
-    {% csrf_token %}
-    {% for item in items %}
-    <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if user_has_item(item, user) %}checked{% endif %}>
-    <label for="item_{{ item.id }}">{{ item.nom }}</label><br>
-    {% endfor %}
-    {% for quete in quetes %}
-    <input type="checkbox" name="quete_{{ quete.id }}" id="quete_{{ quete.id }}" {% if user_has_quete(quete, user) %}checked{% endif %}>
-    <label for="quete_{{ quete.id }}">{{ quete.titre }}</label><br>
-    {% endfor %}
-    <input type="submit" value="Mettre à jour">
-</form>
-
         
     </div>
 {% endblock %}
