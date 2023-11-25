@@ -14,7 +14,7 @@
     <ul>
         {% for item, is_obtained in items_with_status %}
     <li>
-        <a href="{% url 'item_detail' item_id=item.id %}">{{ item.nom }}</a>
+        <a href="{% url 'item_detail' item_id=item.id %}" class="details-link">{{ item.nom }}</a>
         {% if request.user.is_authenticated %}
             <form method="post" action="{% url 'toggle_obtenu_item' item.id %}" style="display: inline;">
                 {% csrf_token %}
@@ -33,7 +33,7 @@
     <h2>Quêtes</h2>
     {% for quete, is_obtained in quetes_with_status %}
     <li>
-        <a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.titre }}</a>
+        <a href="{% url 'quete_detail' quete_id=quete.id %}" class="details-link">{{ quete.titre }}</a>
         {% if request.user.is_authenticated %}
             <form method="post" action="{% url 'toggle_obtenu_quete' quete.id %}" style="display: inline;">
                 {% csrf_token %}
