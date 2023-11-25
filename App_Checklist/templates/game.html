@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block title %}{{ jeu.nom }}{% endblock %}
-{% load custom_filters %}
 {% block content %}
 <div class="breadcrumb">
     <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > {{ jeu.nom }}
@@ -17,8 +16,8 @@
         <ul>
             {% for item in items %}
                 <li>
-                    <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if items_obtenus|get:item.id %}checked{% endif %}>
-                    <label for="item_{{ item.id }}">{{ item.nom }}</label><br>        
+                        <input type="checkbox" name="item_{{ item.id }}" id="item_{{ item.id }}" {% if item in profil_utilisateur.items_obtenus.all %}checked{% endif %}>
+                        <label for="item_{{ item.id }}">{{ item.nom }}</label><br>        
                 </li>
             {% endfor %}
         </ul>
@@ -27,7 +26,7 @@
         <ul>
             {% for quete in quetes %}
                 <li>
-                    <input type="checkbox" name="quete_{{ quete.id }}" id="quete_{{ quete.id }}" {% if quetes_obtenues|get:quete.id %}checked{% endif %}>
+                    <input type="checkbox" name="quete_{{ quete.id }}" id="quete_{{ quete.id }}" {% if quete in profil_utilisateur.quetes_obtenues.all %}checked{% endif %}>
                     <label for="quete_{{ quete.id }}">{{ quete.titre }}</label><br>
                 </li>
             {% endfor %}
