@@ -21,7 +21,7 @@
         <h2>Quetes</h2>
         <ul>
             {% for quete in quetes %}
-                <li><a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.nom }}</a></li>
+                <li><a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.titre }}</a></li>
             {% endfor %}
         </ul>
         

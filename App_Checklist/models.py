@@ -27,7 +27,7 @@ class Item(models.Model):
 class Quete(models.Model):
     id = models.AutoField(primary_key=True)
     jeu = models.ForeignKey(Jeu, on_delete=models.CASCADE)
-    nom = models.CharField(max_length=100)
+    titre = models.CharField(max_length=100)
     description = models.TextField()
 
     def __str__(self):
