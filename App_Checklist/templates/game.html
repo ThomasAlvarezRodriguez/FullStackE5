@@ -12,7 +12,7 @@
 
     <h2>Items</h2>
     <ul>
-        {% for item in items %}
+    {% for item, is_obtained in items_with_status %}
             <li>
                 <a href="{% url 'item_detail' item_id=item.id %}">{{ item.nom }}</a>
                 {% if request.user.is_authenticated %}
@@ -33,7 +33,7 @@
 
     <h2>Quêtes</h2>
     <ul>
-        {% for quete in quetes %}
+        {% for quete, is_obtained in quetes_with_status %}
             <li>
                 <a href="{% url 'quete_detail' quete_id=quete.id %}">{{ quete.titre }}</a>
                 {% if request.user.is_authenticated %}
