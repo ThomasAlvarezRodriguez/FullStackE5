@@ -34,19 +34,30 @@ def game(request, jeu_id):
 
     items_with_status = [(item, False) for item in items]
     quetes_with_status = [(quete, False) for quete in quetes]
+    items_progress = 0
+    quetes_progress = 0
 
     if request.user.is_authenticated:
         profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
         items_with_status = [(item, item in profil_utilisateur.items_obtenus.all()) for item in items]
         quetes_with_status = [(quete, quete in profil_utilisateur.quetes_obtenues.all()) for quete in quetes]
 
+        obtained_items_count = sum(is_obtained for _, is_obtained in items_with_status)
+        obtained_quetes_count = sum(is_obtained for _, is_obtained in quetes_with_status)
+
+        items_progress = (obtained_items_count / len(items)) * 100 if items else 0
+        quetes_progress = (obtained_quetes_count / len(quetes)) * 100 if quetes else 0
+
     context = {
         'jeu': jeu,
         'items_with_status': items_with_status,
         'quetes_with_status': quetes_with_status,
+        'items_progress': items_progress,
+        'quetes_progress': quetes_progress,
     }
 
     return render(request, 'game.html', context)
+
 
 
 

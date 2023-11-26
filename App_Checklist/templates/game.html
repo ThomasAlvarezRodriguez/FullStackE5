@@ -9,6 +9,32 @@
 <div class="content">
     <h1>{{ jeu.nom }}</h1>
     <p>{{ jeu.description }}</p>
+    <!-- In game.html -->
+
+<!-- ... other content ... -->
+
+<!-- In game.html -->
+
+<!-- ... other content ... -->
+
+<div class="progress-container">
+    <label for="items-progress">Progression des Items:</label>
+    <div class="progress-bar">
+<div class="progress" id="items-progress" style="width: {{ items_progress }}%;"></div>
+    </div>
+</div>
+
+<div class="progress-container">
+    <label for="quetes-progress">Progression des Quêtes:</label>
+    <div class="progress-bar">
+        <div class="progress" id="quetes-progress" style="width: {{ quetes_progress }}%;"></div>
+    </div>
+</div>
+
+<!-- ... other content ... -->
+
+<!-- ... other content ... -->
+
 
     <h2>Items</h2>
     <ul>
