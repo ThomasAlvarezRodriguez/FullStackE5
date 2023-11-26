@@ -305,3 +305,33 @@ a:hover, a:focus {
     line-height: 20px;
     color: white;
 }
+
+/* style.css */
+
+.register-container {
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-container form p {
+    margin-bottom: 10px;
+}
+
+.register-container button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.register-container button:hover {
+    background-color: #45a049;
+}

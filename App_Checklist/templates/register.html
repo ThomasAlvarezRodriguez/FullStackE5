@@ -1,0 +1,14 @@
+<!-- register.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="register-container">
+    <h1>Create a new account</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ register_form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+</div>
+{% endblock %}
