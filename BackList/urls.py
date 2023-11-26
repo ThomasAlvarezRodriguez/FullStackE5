@@ -38,7 +38,7 @@ urlpatterns = [
     path('toggle-obtenu-item/<int:item_id>/', views.toggle_obtenu_item, name='toggle_obtenu_item'),
     path('toggle-obtenu-quete/<int:quete_id>/', views.toggle_obtenu_quete, name='toggle_obtenu_quete'),
     path('register/', views.register, name='register'),
-
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

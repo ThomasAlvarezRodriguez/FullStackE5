@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from .forms import NewUserForm
 
 def home_view(request):
     return render(request, 'home.html')
@@ -196,3 +198,4 @@ def register(request):
         messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
     return render(request, "register.html", {"register_form": form})
+
