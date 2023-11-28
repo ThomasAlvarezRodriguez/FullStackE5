@@ -34,10 +34,10 @@ def jeux_list(request):
             obtained_points = sum(item.points for item in profil_utilisateur.items_obtenus.filter(jeu=jeu)) + sum(quete.points for quete in profil_utilisateur.quetes_obtenues.filter(jeu=jeu))
             progress = (obtained_points / total_points * 100) if total_points else 0
             progress_per_game[jeu.id] = progress
-            return render(request, 'jeux_list.html', {
-                'profil_utilisateur': profil_utilisateur,
-                'jeux': jeux,
-                'progress_per_game': progress_per_game,  })
+        return render(request, 'jeux_list.html', {
+            'profil_utilisateur': profil_utilisateur,
+            'jeux': jeux,
+            'progress_per_game': progress_per_game,  })
         
     return render(request, 'jeux_list.html', {'jeux': jeux})
 
