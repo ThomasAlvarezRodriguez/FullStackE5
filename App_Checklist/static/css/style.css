@@ -1,28 +1,14 @@
-:root {
-    /* Couleurs de base */
-    --primary-color: #333;
-    --link-color: #0066cc;
-    --link-hover-color: #003399;
-    --background-color: #f4f4f4;
-    --text-color: #333;
-    --menu-hover-bg: #ddd;
-    --menu-active-bg: #555;
-    --button-green: #4CAF50;
-    --button-green-hover: #45a049;
-    --button-red: #f44336;
-    --button-red-hover: #d32f2f;
-}
+/* style.css */
 
 body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: var(--background-color);
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    color: var(--text-color);
 }
 
 .menu-bar {
-    background-color: var(--primary-color);
+    background-color: #333;
     overflow: hidden;
     position: fixed;
     top: 0;
@@ -30,30 +16,42 @@ body {
     z-index: 1000;
 }
 
-.menu-bar a, .menu-bar button, .dropdown-content a {
+.menu-bar a, .menu-bar button {
+    float: left;
+    display: block;
     color: white;
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
-.menu-bar a:hover, .menu-bar button:hover, .dropdown-content a:hover {
-    background-color: var(--menu-hover-bg);
+.menu-bar a:hover, .menu-bar button:hover {
+    background-color: #ddd;
     color: black;
 }
 
 .menu-bar a.active {
-    background-color: var(--menu-active-bg);
+    background-color: #555; 
+    color: white; 
 }
+
 
 .content {
     padding: 50px;
-    margin-top: 60px; /* Hauteur du menu-bar */
+    margin-top: 60px; /* Adjust the top margin to the height of the menu-bar */
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+h1 {
+    color: #333;
+}
+
+/* Styles for dropdown menu */
 .dropdown {
     position: relative;
     display: inline-block;
@@ -68,16 +66,30 @@ body {
     z-index: 1001;
 }
 
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
+/* Clear floats after the menu-bar */
 .menu-bar::after {
     content: "";
     display: table;
     clear: both;
 }
 
+/* Responsive design for smaller screens */
 @media screen and (max-width: 600px) {
     .menu-bar a, .menu-bar button {
         float: none;
@@ -93,60 +105,270 @@ body {
         min-width: 100%;
     }
 }
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-/* Autres styles (table, breadcrumb, buttons, etc.)... */
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
 
-a {
-    color: var(--link-color);
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+/* Style for breadcrumbs */
+.breadcrumb {
+    padding: 10px 0;
+    margin-top: 60px; /* Adjust if necessary to place below the menu bar */
+    list-style: none;
+    background-color: #e9ecef; /* Bootstrap's light gray */
+    border-radius: 5px;
+    border: 1px solid #e7e7e7;
+}
+
+.breadcrumb a {
+    color: #0275d8; /* Bootstrap's default blue */
     text-decoration: none;
+    padding: 0 5px; /* Add padding for spacing around links */
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb > a:not(:last-child)::after {
+    content: ">";
+    color: #666;
+}
+/* Style for favorite buttons */
+.favorite-button {
+    padding: 5px 10px;
+    background-color: #4CAF50; /* A green background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px; /* Space it a bit from the "Détails" link */
+    font-size: 0.9em; /* Adjust the font size as needed */
+}
+
+.favorite-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.remove-favorite {
+    background-color: #f44336; /* Red background for removal */
+}
+
+.remove-favorite:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+
+/* Style for the list of games */
+ul.jeux-list {
+    list-style: none; /* Remove default list styling */
+    padding: 0;
+}
+
+ul.jeux-list li {
+    margin-bottom: 10px; /* Add space between list items */
+}
+
+ul.jeux-list li a {
+    text-decoration: none;
+    color: #000; /* Black text for links */
+    padding-right: 5px; /* Space between text and button */
+}
+
+ul.jeux-list li a:hover {
+    text-decoration: underline;
+}
+/* Style for detail links */
+ul.jeux-list li a.details-link {
+    color: #1a73e8; /* Choisir une couleur plus vive */
+    font-weight: bold; /* Rendre le texte en gras */
+    padding: 3px 8px; /* Ajouter un peu d'espace autour du texte */
+    margin-right: 10px; /* Ajouter de la marge à droite */
+    border-radius: 4px; /* Adoucir les coins pour l'esthétique */
+    background-color: #e6f4ff; /* Un fond subtil */
+    text-decoration: none; /* Enlever le soulignement */
+}
+
+ul.jeux-list li a.details-link:hover {
+    background-color: #c2e0ff; /* Un fond plus foncé au survol */
+    text-decoration: underline; /* Souligner au survol pour indiquer que c'est cliquable */
+}
+.obtain-button {
+    padding: 10px 20px; /* Adjust padding to make the button large enough */
+    color: white;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px; /* Adjust font size as needed */
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    min-width: 120px; /* Set a minimum width for the button */
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.24), 0 0 2px 0 rgba(0,0,0,0.12); /* Optional: adds a shadow for some depth */
+}
+
+.obtain-button:not(.remove-obtain) {
+    background-color: #f44336; /* Red for not obtained */
+}
+
+.obtain-button:not(.remove-obtain):hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+.obtain-button.remove-obtain {
+    background-color: #4CAF50; /* Green for obtained */
+}
+
+.obtain-button.remove-obtain:hover {
+    background-color: #388E3C; /* Darker green on hover */
+}
+
+/* style.css */
+a {
+    color: #0066cc; /* Blue color for links */
+    text-decoration: none; /* Removes underline from links */
     transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
 }
 
 a:hover, a:focus {
-    color: var(--link-hover-color);
-    text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8); /* Effet de lueur au survol */
+    color: #003399; /* Darker blue on hover/focus */
+    text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8); /* Glowing effect on hover/focus */
 }
 
-/* Styles spécifiques pour les classes 'details-link', 'favorite-button', etc. */
-
+/* Specific style for 'details-link' class if needed */
 .details-link {
-    font-weight: bold;
-    color: #1a73e8; /* Couleur vive */
-    padding: 3px 8px;
-    margin-right: 10px;
-    border-radius: 4px;
-    background-color: #e6f4ff; /* Fond subtil */
-    text-decoration: none;
+    font-weight: bold; /* Makes detail links bold */
+    /* Additional specific styling for 'details-link' class */
 }
 
-.details-link:hover {
-    background-color: #c2e0ff; /* Fond plus foncé au survol */
-    text-decoration: underline;
-}
-
-.favorite-button, .remove-favorite {
-    padding: 5px 10px;
+/* Style for 'favorite-button' class */
+.favorite-button {
+    /* Button-like appearance */
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 4px 2px;
     border: none;
     border-radius: 4px;
+    background-color: #4CAF50; /* Green background */
     color: white;
+    text-align: center;
     cursor: pointer;
-    margin-left: 10px;
-    font-size: 0.9em;
     transition: background-color 0.3s ease-in-out;
 }
 
-.favorite-button {
-    background-color: var(--button-green);
-}
-
 .favorite-button:hover {
-    background-color: var(--button-green-hover);
+    background-color: #388E3C; /* Darker green on hover */
 }
 
+/* Specific style for 'remove-favorite' class */
 .remove-favorite {
-    background-color: var(--button-red);
+    background-color: #f44336; /* Red background for remove favorite */
 }
 
 .remove-favorite:hover {
-    background-color: var(--button-red-hover);
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+/* Add to your style.css */
+
+.progress-container {
+    margin: 20px 0;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #ddd;
+}
+
+.progress-bar-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border: 1px solid #d0d0d0;
+}
+.progress-bar {
+    height: 20px;
+    background-color: #4caf50;
+}
+.progress {
+    height: 20px;
+    background-color: #4CAF50;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+}
+
+/* style.css */
+
+.register-container {
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-container form p {
+    margin-bottom: 10px;
+}
+
+.register-container button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.register-container button:hover {
+    background-color: #45a049;
+}
+
+.button {
+    padding: 10px 15px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF; /* Bootstrap primary color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #0056b3; /* A darker shade of blue */
+}
+
+.button-register {
+    background-color: #28a745; /* Bootstrap success color */
+}
+
+.button-register:hover {
+    background-color: #1e7e34; /* A darker shade of green */
+}
+
+/* You might want to add some margin between the buttons if they are stacked */
+.button + .button {
+    margin-top: 15px;
 }
