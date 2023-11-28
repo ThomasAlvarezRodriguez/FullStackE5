@@ -10,7 +10,8 @@
             <li>
                 <a href="{% url 'game' jeu_id=jeu.id %}" class="details-link">{{ jeu.nom }}</a>
                 <div class="progress-bar-container">
-                <div class="progress-bar" style="width: {{ progress_per_game[jeu.id] }}%;"></div>
+                    <div class="progress-bar" style="width: {{ progress_per_game.jeu.id }}%;"></div>
+                </div>
                 </div>
                 {% if request.user.is_authenticated %}
                 <form method="post" action="{% url 'toggle_favoris' jeu.id %}" style="display: inline;">
