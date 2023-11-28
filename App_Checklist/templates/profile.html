@@ -9,15 +9,14 @@
     <h2>Jeux favoris</h2>
     <ul>
         {% for jeu in jeux_favoris %}
-            <li>
-                <a href="{% url 'game' jeu_id=jeu.id %}" class="details-link">{{ jeu.nom }}</a>
-            </li>
-            <div class="progress-bar-container">
-                <div class="progress-bar" style="width: {{ progress_per_game|get:jeu.id }}%;"></div>
-            </div>
-        {% endfor %}
+            <li><a href="{% url 'game' jeu_id=jeu.id %}" class="details-link">{{ jeu.nom }}</a></li>
+            <div class="progress-container">
+                <label for="game-progress">Progression du Jeu:</label>
+                <div class="progress-bar">
+                    <div class="progress" id="game-progress" style="width: {{ progress_per_game|get:jeu.id }}%;"></div>
+                </div>
+            </div>            
     </ul>
-    
     <!-- Vous pouvez ajouter ici d'autres sections, comme la progression des jeux -->
 </div>
 {% endblock %}
