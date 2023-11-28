@@ -34,7 +34,7 @@ class Quete(models.Model):
 
 
     def __str__(self):
-        return self.titre
+        return self.nom
     
 class ProfilUtilisateur(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
