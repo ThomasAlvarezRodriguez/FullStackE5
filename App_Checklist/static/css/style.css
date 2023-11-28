@@ -289,30 +289,41 @@ a:hover, a:focus {
 
 /* Add to your style.css */
 
+
+/* Style général pour le conteneur de la barre de progression */
 .progress-container {
     margin: 20px 0;
+    padding: 3px; /* Ajout d'un peu de padding pour le contour */
+    background-color: white; /* Fond blanc pour le conteneur */
+    border: 1px solid #d0d0d0; /* Contour doux */
+    border-radius: 10px; /* Coins arrondis pour le conteneur */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre subtile pour la profondeur */
+    overflow: hidden; /* Assure que la barre de progression reste dans les coins arrondis */
 }
 
+/* Style pour la barre de progression de base */
 .progress-bar {
-    width: 100%;
-    background-color: #ddd;
+    width: 100%; /* Largeur maximale pour la progression totale */
+    background-color: #f5f5f5; /* Fond gris pour la barre de progression non remplie */
+    border-radius: 8px; /* Coins arrondis pour la barre de progression */
+    overflow: hidden; /* Assure que la barre de progression intérieure reste dans les coins arrondis */
 }
 
-.progress-bar-container {
-    width: 100%;
-    background-color: #e0e0e0;
-    border: 1px solid #d0d0d0;
-}
-.progress-bar {
-    height: 20px;
-    background-color: #4caf50;
-}
+/* Style pour la barre de progression remplie */
 .progress {
-    height: 20px;
-    background-color: #4CAF50;
+    height: 20px; /* Hauteur fixe pour la barre de progression */
+    background-color: #4CAF50; /* Vert pour la barre de progression remplie */
+    width: 0; /* Largeur initiale à 0 pour l'animation */
+    border-radius: 8px; /* Coins arrondis pour la barre de progression remplie */
+    transition: width 1s ease-in-out; /* Animation douce pour le changement de largeur */
+    color: white; /* Texte blanc sur la barre de progression */
     text-align: center;
-    line-height: 20px;
-    color: white;
+    line-height: 20px; /* Centrage vertical du texte dans la barre */
+}
+
+/* Ajoutez cette classe à votre balise HTML pour la barre de progression remplie lorsque vous connaissez le pourcentage */
+.progress-animate {
+    width: /* Le pourcentage de votre progression */; /* Remplacez par la valeur de progression dynamique */
 }
 
 /* style.css */
