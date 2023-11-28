@@ -11,9 +11,23 @@
             <li>
                 <a href="{% url 'game' jeu_id=jeu.id %}" class="details-link">{{ jeu.nom }}</a>
                 {% if request.user.is_authenticated %}
+                <div class="progress-container">
+                    <label for="items-progress">Progression des Items:</label>
+                    <div class="progress-bar">
+                        <div class="progress" id="items-progress" style="width: {{ items_progress }}%;"></div>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <label for="quetes-progress">Progression des Quêtes:</label>
+                    <div class="progress-bar">
+                        <div class="progress" id="quetes-progress" style="width: {{ quetes_progress }}%;"></div>
+                    </div>
+                </div>
+                
                 <div class="progress-bar-container">
                     <div class="progress-bar" style="width: {{ progress_per_game|get:jeu.id }}%;"></div>
-                </div>
+                </div>                
                 <form method="post" action="{% url 'toggle_favoris' jeu.id %}" style="display: inline;">
                     {% csrf_token %}
                     <button type="submit" class="favorite-button {% if jeu in request.user.profilutilisateur.jeux_favoris.all %}remove-favorite{% endif %}">
