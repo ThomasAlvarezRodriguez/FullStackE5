@@ -40,15 +40,14 @@ def game(request, jeu_id):
     quetes_progress = 0
 
     if request.user.is_authenticated:
-        profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
-        items_with_status = [(item, item in profil_utilisateur.items_obtenus.all()) for item in items]
-        quetes_with_status = [(quete, quete in profil_utilisateur.quetes_obtenues.all()) for quete in quetes]
+        total_items_points = sum(item.points for item in items)
+        total_quetes_points = sum(quete.points for quete in quetes)
 
-        obtained_items_count = sum(is_obtained for _, is_obtained in items_with_status)
-        obtained_quetes_count = sum(is_obtained for _, is_obtained in quetes_with_status)
+        obtained_items_points = sum(item.points for item, obtained in items_with_status if obtained)
+        obtained_quetes_points = sum(quete.points for quete, obtained in quetes_with_status if obtained)
 
-        items_progress = (obtained_items_count / len(items)) * 100 if items else 0
-        quetes_progress = (obtained_quetes_count / len(quetes)) * 100 if quetes else 0
+        items_progress = (obtained_items_points / total_items_points) * 100 if items else 0
+        quetes_progress = (obtained_quetes_points / total_quetes_points) * 100 if quetes else 0
 
     context = {
         'jeu': jeu,
@@ -115,19 +114,21 @@ def toggle_favoris(request, jeu_id):
 
     return redirect('jeux_list')  # Redirigez l'utilisateur vers la liste des jeux
 
+# views.py
+
 @login_required
 def toggle_obtenu_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
 
-    # Toggle the item obtained status
     if item in profil_utilisateur.items_obtenus.all():
         profil_utilisateur.items_obtenus.remove(item)
+        profil_utilisateur.points -= item.points  # Subtract points
     else:
         profil_utilisateur.items_obtenus.add(item)
+        profil_utilisateur.points += item.points  # Add points
     profil_utilisateur.save()
 
-    # Redirect back to the same page to show the updated status
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 @login_required
@@ -135,15 +136,16 @@ def toggle_obtenu_quete(request, quete_id):
     quete = get_object_or_404(Quete, pk=quete_id)
     profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
 
-    # Toggle the quest obtained status
     if quete in profil_utilisateur.quetes_obtenues.all():
         profil_utilisateur.quetes_obtenues.remove(quete)
+        profil_utilisateur.points -= quete.points  # Subtract points
     else:
         profil_utilisateur.quetes_obtenues.add(quete)
+        profil_utilisateur.points += quete.points  # Add points
     profil_utilisateur.save()
 
-    # Redirect back to the same page to show the updated status
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+
 
 
 from django.http import HttpResponseRedirect

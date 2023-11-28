@@ -18,6 +18,7 @@ class Item(models.Model):
     jeu = models.ForeignKey(Jeu, on_delete=models.CASCADE)
     nom = models.CharField(max_length=100)
     description = models.TextField()
+    points = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
 
 
@@ -29,6 +30,8 @@ class Quete(models.Model):
     jeu = models.ForeignKey(Jeu, on_delete=models.CASCADE)
     titre = models.CharField(max_length=100)
     description = models.TextField()
+    points = models.PositiveIntegerField(default=0)
+
 
     def __str__(self):
         return self.nom
@@ -38,6 +41,7 @@ class ProfilUtilisateur(models.Model):
     jeux_favoris = models.ManyToManyField(Jeu)
     items_obtenus = models.ManyToManyField(Item)
     quetes_obtenues = models.ManyToManyField(Quete)
+    points = models.IntegerField(default=0)  # Field to store the points
 
     def __str__(self):
         return self.user.username
