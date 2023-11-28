@@ -7,16 +7,6 @@ from .forms import NewUserForm
 def home_view(request):
     return render(request, 'home.html')
 
-@login_required
-def profile_view(request):
-    profil_utilisateur, created = ProfilUtilisateur.objects.get_or_create(user=request.user)
-    jeux_favoris = profil_utilisateur.jeux_favoris.all()
-
-    return render(request, 'profile.html', {
-        'profil_utilisateur': profil_utilisateur,
-        'jeux_favoris': jeux_favoris,
-    })
-
 def game_view(request):
     return render(request, 'game.html')
 
