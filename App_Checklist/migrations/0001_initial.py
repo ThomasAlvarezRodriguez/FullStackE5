@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
             name='Quete',
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('nom', models.CharField(max_length=100)),
+                ('titre', models.CharField(max_length=100)),
                 ('description', models.TextField()),
                 ('jeu', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App_Checklist.jeu')),
             ],

@@ -1,18 +1,18 @@
 <!-- Dans quete_detail.html -->
 {% extends 'base.html' %}
 
-{% block title %}{{ quete.nom }}{% endblock %}
+{% block title %}{{ quete.titre }}{% endblock %}
 
 {% block content %}
     <div class="breadcrumb">
-        <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > <a href="{% url 'game' jeu_id=quete.jeu.id %}">{{ quete.jeu.nom }}</a> > {{ quete.nom }}
+        <a href="{% url 'home' %}">Accueil</a> > <a href="{% url 'jeux_list' %}">Liste des jeux</a> > <a href="{% url 'game' jeu_id=quete.jeu.id %}">{{ quete.jeu.titre }}</a> > {{ quete.titre }}
     </div>
     <div class="content">
-        <h1>{{ quete.nom }}</h1>
+        <h1>{{ quete.titre }}</h1>
         <p>{{ quete.description }}</p>
         <!-- Affichez l'image si elle existe -->
         {% if quete.image %}
-            <img src="{{ quete.image.url }}" alt="{{ quete.nom }}">
+            <img src="{{ quete.image.url }}" alt="{{ quete.titre }}">
         {% endif %}
     </div>
 {% endblock %}

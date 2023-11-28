@@ -28,13 +28,13 @@ class Item(models.Model):
 class Quete(models.Model):
     id = models.AutoField(primary_key=True)
     jeu = models.ForeignKey(Jeu, on_delete=models.CASCADE)
-    nom = models.CharField(max_length=100)
+    titre = models.CharField(max_length=100)
     description = models.TextField()
     points = models.PositiveIntegerField(default=0)
 
 
     def __str__(self):
-        return self.nom
+        return self.titre
     
 class ProfilUtilisateur(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
