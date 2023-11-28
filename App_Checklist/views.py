@@ -24,6 +24,21 @@ from .models import Jeu, Item, Quete
 
 def jeux_list(request):
     jeux = Jeu.objects.all()  # Récupère tous les jeux
+    if request.user.is_authenticated:
+        profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
+        progress_per_game = {}
+        for jeu in jeux:
+            items = Item.objects.filter(jeu=jeu)
+            quetes = Quete.objects.filter(jeu=jeu)
+            total_points = sum(item.points for item in items) + sum(quete.points for quete in quetes)
+            obtained_points = sum(item.points for item in profil_utilisateur.items_obtenus.filter(jeu=jeu)) + sum(quete.points for quete in profil_utilisateur.quetes_obtenues.filter(jeu=jeu))
+            progress = (obtained_points / total_points * 100) if total_points else 0
+            progress_per_game[jeu.id] = progress
+            return render(request, 'profile.html', {
+                'profil_utilisateur': profil_utilisateur,
+                'jeux': jeux,
+                'progress_per_game': progress_per_game,  })
+        
     return render(request, 'jeux_list.html', {'jeux': jeux})
 
 
@@ -89,13 +104,22 @@ def quete_detail(request, quete_id):
 
 @login_required
 def profile_view(request):
-    user = request.user
-    profil_utilisateur, created = ProfilUtilisateur.objects.get_or_create(user=user)
+    profil_utilisateur, created = ProfilUtilisateur.objects.get_or_create(user=request.user)
     jeux_favoris = profil_utilisateur.jeux_favoris.all()
+
+    progress_per_game = {}
+    for jeu in jeux_favoris:
+        items = Item.objects.filter(jeu=jeu)
+        quetes = Quete.objects.filter(jeu=jeu)
+        total_points = sum(item.points for item in items) + sum(quete.points for quete in quetes)
+        obtained_points = sum(item.points for item in profil_utilisateur.items_obtenus.filter(jeu=jeu)) + sum(quete.points for quete in profil_utilisateur.quetes_obtenues.filter(jeu=jeu))
+        progress = (obtained_points / total_points * 100) if total_points else 0
+        progress_per_game[jeu.id] = progress
 
     return render(request, 'profile.html', {
         'profil_utilisateur': profil_utilisateur,
         'jeux_favoris': jeux_favoris,
+        'progress_per_game': progress_per_game,
     })
 
 from django.db.models.signals import post_save
