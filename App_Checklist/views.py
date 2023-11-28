@@ -34,33 +34,46 @@ def game(request, jeu_id):
     items = Item.objects.filter(jeu=jeu)
     quetes = Quete.objects.filter(jeu=jeu)
 
-    total_items_points = sum(item.points for item in items)
-    total_quetes_points = sum(quete.points for quete in quetes)
-
     if request.user.is_authenticated:
         profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
-        user_items_points = sum(item.points for item in profil_utilisateur.items_obtenus.filter(jeu=jeu))
-        user_quetes_points = sum(quete.points for quete in profil_utilisateur.quetes_obtenues.filter(jeu=jeu))
+        
+        # Compute the obtained status and points for items
+        items_with_status = [(item, item in profil_utilisateur.items_obtenus.all(), item.points)
+                             for item in items]
+        # Compute the obtained status and points for quests
+        quetes_with_status = [(quete, quete in profil_utilisateur.quetes_obtenues.all(), quete.points)
+                              for quete in quetes]
 
+        # Calculate the total and user-obtained points for items and quests
+        total_items_points = sum(item.points for item in items)
+        total_quetes_points = sum(quete.points for quete in quetes)
+        user_items_points = sum(status[2] for status in items_with_status if status[1])
+        user_quetes_points = sum(status[2] for status in quetes_with_status if status[1])
+
+        # Calculate progress as a percentage
         items_progress = (user_items_points / total_items_points * 100) if total_items_points else 0
         quetes_progress = (user_quetes_points / total_quetes_points * 100) if total_quetes_points else 0
     else:
+        # For unauthenticated users, show no progress and set all statuses to False
+        items_with_status = [(item, False, item.points) for item in items]
+        quetes_with_status = [(quete, False, quete.points) for quete in quetes]
+        total_items_points = sum(item.points for item in items)
+        total_quetes_points = sum(quete.points for quete in quetes)
         user_items_points = user_quetes_points = items_progress = quetes_progress = 0
 
     context = {
         'jeu': jeu,
+        'items_with_status': items_with_status,
+        'quetes_with_status': quetes_with_status,
         'items_progress': items_progress,
         'quetes_progress': quetes_progress,
         'user_items_points': user_items_points,
         'total_items_points': total_items_points,
         'user_quetes_points': user_quetes_points,
         'total_quetes_points': total_quetes_points,
-        # ... other context variables ...
     }
 
     return render(request, 'game.html', context)
-
-
 
 
 
