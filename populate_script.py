@@ -16,8 +16,8 @@ def create_item(jeu, nom, description, image=None):
     item = Item(jeu=jeu, nom=nom, description=description, image=image)
     item.save()
 
-def create_quete(jeu, titre, description):
-    quete = Quete(jeu=jeu, titre=titre, description=description)
+def create_quete(jeu, nom, description):
+    quete = Quete(jeu=jeu, nom=nom, description=description)
     quete.save()
 
 def create_profil_utilisateur(user, jeux_favoris):

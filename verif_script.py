@@ -9,7 +9,7 @@ for item in items:
 from App_Checklist.models import Quete
 quetes = Quete.objects.all()
 for quete in quetes:
-    print(f'Titre: {quete.titre}, Jeu: {quete.jeu.nom}, Description: {quete.description}')
+    print(f'nom: {quete.nom}, Jeu: {quete.jeu.nom}, Description: {quete.description}')
 from App_Checklist.models import ProfilUtilisateur
 profils = ProfilUtilisateur.objects.all()
 for profil in profils:
