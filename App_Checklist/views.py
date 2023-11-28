@@ -34,28 +34,28 @@ def game(request, jeu_id):
     items = Item.objects.filter(jeu=jeu)
     quetes = Quete.objects.filter(jeu=jeu)
 
-    items_with_status = [(item, False) for item in items]
-    quetes_with_status = [(quete, False) for quete in quetes]
-    items_progress = 0
-    quetes_progress = 0
+    total_items_points = sum(item.points for item in items)
+    total_quetes_points = sum(quete.points for quete in quetes)
 
     if request.user.is_authenticated:
         profil_utilisateur = ProfilUtilisateur.objects.get(user=request.user)
-        items_with_status = [(item, item in profil_utilisateur.items_obtenus.all()) for item in items]
-        quetes_with_status = [(quete, quete in profil_utilisateur.quetes_obtenues.all()) for quete in quetes]
+        user_items_points = sum(item.points for item in profil_utilisateur.items_obtenus.filter(jeu=jeu))
+        user_quetes_points = sum(quete.points for quete in profil_utilisateur.quetes_obtenues.filter(jeu=jeu))
 
-        obtained_items_count = sum(is_obtained for _, is_obtained in items_with_status)
-        obtained_quetes_count = sum(is_obtained for _, is_obtained in quetes_with_status)
-
-        items_progress = (obtained_items_count / len(items)) * 100 if items else 0
-        quetes_progress = (obtained_quetes_count / len(quetes)) * 100 if quetes else 0
+        items_progress = (user_items_points / total_items_points * 100) if total_items_points else 0
+        quetes_progress = (user_quetes_points / total_quetes_points * 100) if total_quetes_points else 0
+    else:
+        user_items_points = user_quetes_points = items_progress = quetes_progress = 0
 
     context = {
         'jeu': jeu,
-        'items_with_status': items_with_status,
-        'quetes_with_status': quetes_with_status,
         'items_progress': items_progress,
         'quetes_progress': quetes_progress,
+        'user_items_points': user_items_points,
+        'total_items_points': total_items_points,
+        'user_quetes_points': user_quetes_points,
+        'total_quetes_points': total_quetes_points,
+        # ... other context variables ...
     }
 
     return render(request, 'game.html', context)
