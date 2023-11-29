@@ -21,7 +21,7 @@ python -m venv env
 ```
 3. Activez l'environnement virtuel :
 ```bash
-source env/scripts/activate
+.\env\Scripts\activate
 ```
 4. Installez les dépendances :
 ```bash
