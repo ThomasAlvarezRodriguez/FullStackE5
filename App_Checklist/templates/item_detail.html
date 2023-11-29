@@ -14,5 +14,6 @@
         {% if item.image %}
             <img src="{{ item.image.url }}" alt="{{ item.nom }}">
         {% endif %}
+        <p>Points attribués à cet item : <strong>{{ item.points }}</strong></p>
     </div>
 {% endblock %}

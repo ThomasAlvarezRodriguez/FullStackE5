@@ -12,14 +12,14 @@
     <!-- In game.html -->
 
 <div class="progress-container">
-    <label for="items-progress">Progression des Items:</label>
+    <label for="items-progress">Progression des Items: {{ user_items_points }} / {{ total_items_points }}</label>
     <div class="progress-bar">
     <div class="progress" id="items-progress" style="width: {{ items_progress }}%;"></div>
     </div>
 </div>
 
 <div class="progress-container">
-    <label for="quetes-progress">Progression des Quêtes:</label>
+    <label for="quetes-progress">Progression des Quêtes: {{ user_quetes_points }} / {{ total_quetes_points }}</label>    
     <div class="progress-bar">
         <div class="progress" id="quetes-progress" style="width: {{ quetes_progress }}%;"></div>
     </div>

@@ -14,5 +14,6 @@
         {% if quete.image %}
             <img src="{{ quete.image.url }}" alt="{{ quete.titre }}">
         {% endif %}
+        <p>Points attribués à cette quête : <strong>{{ quete.points }}</strong></p>
     </div>
 {% endblock %}
