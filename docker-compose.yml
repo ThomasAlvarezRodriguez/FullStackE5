@@ -1,0 +1,21 @@
+version: '3'
+# Modifier les informations ci-dessous en ce que vous voulez utiliser pour votre projet
+services:
+  web:
+    build: .
+    command: gunicorn BackList.wsgi:application --bind 0.0.0.0:8000 # Modifier par le nom de votre projet
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=votre_cle_secrete # Modifier par une clé secrète
+      - DEBUG=1 # ou 0 en production 
+    depends_on:
+      - db
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=nom_de_votre_base_de_donnees # Modifier par le nom de votre base de données
+      - POSTGRES_USER=votre_utilisateur # Modifier par le nom de votre utilisateur
+      - POSTGRES_PASSWORD=votre_mot_de_passe # Modifier par votre mot de passe
