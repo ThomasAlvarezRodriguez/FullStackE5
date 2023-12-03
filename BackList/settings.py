@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY_CHECKLIST')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['checkliste5-b41e5aa2e648.herokuapp.com']
 
@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'BackList.wsgi.application'
 
 import dj_database_url
 import os
-# Heroku Postgres, Ici on utilise dj_database_url pour récupérer la variable d'environnement DATABASE_URL et postgresql-reticulated-36335 en défaut si la variable d'environnement n'est pas définie
+# Heroku Postgres, Ici on utilise dj_database_url pour récupérer la variable d'environnement DATABASE_URL
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL', 'postgres://zqzwoanbmxofrc:b159a2085bb87d5ae022be8519fc7cf9de87bdc0420f18d17c41caad6bdd2c24@ec2-44-213-228-107.compute-1.amazonaws.com:5432/d380i5u2ke5ob5')),
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL')),
 }
 
 
